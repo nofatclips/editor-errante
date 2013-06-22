@@ -12,6 +12,12 @@ numberToText.factory("Data", function() {
   };
 });
 
+numberToText.filter("numChar", function() {
+	return function(theText) {
+		return theText.replace(/\n/g, "").replace(/\.\.\./g,"\u2026").length;
+	};
+});
+
 //Controller
 function EditorController($scope, Data) {
   $scope.data = Data;
@@ -22,13 +28,7 @@ function ReportController($scope, Data) {
 
   $scope.data = Data;
   $scope.errors = {};
-  
-  $scope.numChar = function() {
-    // Righe vuote non contano
-	// Tre puntini contano come singolo carattere
-    return $scope.data.ilRacconto.replace(/\n/g, "").replace(/\.\.\./g,"\u2026").length;
-  };
-  
+
   $scope.isValid = function() {
     return $scope.numChar() <= $scope.data.maxChar;
   };
