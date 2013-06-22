@@ -1,0 +1,61 @@
+body {
+  font-size: 18px;
+}
+
+.char-num {
+  font-weight: bold;
+}
+
+.nel-limite {
+  color: black;
+}
+
+.fuori-limite {
+  color: #f22;
+}
+
+textarea {
+  height: 350px;
+  width: 280px;
+  display: block;
+}
+
+.ortografia {
+  color: #f22;
+  text-decoration: underline;
+}
+
+.regola {
+  color: #f22;
+}
+
+#editor, #stats {
+  margin: 10px 0;
+  padding: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;  
+}
+
+#editor {
+  background-color: #fd0;
+  color: #885555;
+  display: inline-block;
+}
+
+#editor > div {
+  margin: 8px 0;
+}
+
+#stats {
+  background-color: #00EAFF;
+  color: #555588;
+  display: inline-block;
+}
+
+#stats {
+  display: inline-block;
+  padding: 20px;
+  vertical-align: top;
+  
+}
