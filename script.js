@@ -23,7 +23,9 @@ function Statistiche($scope, Data) {
   $scope.errors = {};
   
   $scope.numChar = function() {
-    return $scope.data.ilRacconto.length;
+    // Righe vuote non contano
+	// Tre puntini contano come singolo carattere
+    return $scope.data.ilRacconto.replace(/\n/g, "").replace(/\.\.\./g,"\u2026").length;
   };
   
   $scope.isValid = function() {
