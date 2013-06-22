@@ -87,7 +87,14 @@
             <li ng-show="invalidInterpunction()">
               Manca uno spazio nei pressi di 
               <span class="ortografia spazio-mancante">
-                {{errors.spaziatura.context}}
+                {{errors.spaziaturaMancante.context}}
+              </span>
+            </li>
+
+			<li ng-show="invalidSpaces()">
+              Spaziatura di troppo nei pressi di 
+              <span class="ortografia spazio-eccessivo">
+                {{errors.spaziaturaTroppo.context}}
               </span>
             </li>
 

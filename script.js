@@ -36,8 +36,18 @@ function Statistiche($scope, Data) {
     var rx = /(.{0,5})[\.,;:\?\!][a-zA-Z](.{0,9})/;
     var missingSpace = $scope.data.ilRacconto.match(rx);
     if (!missingSpace) return false;
-    $scope.errors.spaziatura = {
+    $scope.errors.spaziaturaMancante = {
       "context": missingSpace[0]
+    };
+    return true;
+  };
+
+  $scope.invalidSpaces = function() {
+    var rx = /(.{0,5}) [\.,;:\?\!](.{0,9})/;
+    var unrequiredSpace = $scope.data.ilRacconto.match(rx);
+    if (!unrequiredSpace) return false;
+    $scope.errors.spaziaturaTroppo = {
+      "context": unrequiredSpace[0]
     };
     return true;
   };
