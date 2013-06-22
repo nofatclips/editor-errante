@@ -13,11 +13,12 @@ numberToText.factory("Data", function() {
 });
 
 //Controller
-function Inserimento($scope, Data) {
+function EditorController($scope, Data) {
   $scope.data = Data;
 }
 
-function Statistiche($scope, Data) {
+//Controller
+function ReportController($scope, Data) {
 
   $scope.data = Data;
   $scope.errors = {};
@@ -53,39 +54,39 @@ function Statistiche($scope, Data) {
   };
 
   $scope.spaceAfterApostrophe = function() {
-    var eccezioni = [
+    var exceptionsToTheRule = [
       / po$/
     ];
     var rx = /(.{0,5})' (.{0,9})/;
-    var apoSpazio = $scope.data.ilRacconto.match(rx);
-    if (!apoSpazio) return false;
-    for (var i=0, l=eccezioni.length; i<l; i++) {
-      if (apoSpazio[1].match(eccezioni[i])) return false;
+    var foundSpace = $scope.data.ilRacconto.match(rx);
+    if (!foundSpace) return false;
+    for (var i=0, l=exceptionsToTheRule.length; i<l; i++) {
+      if (foundSpace[1].match(exceptionsToTheRule[i])) return false;
     }
     $scope.errors.apostrofo = {
-      "context": apoSpazio[0]
+      "context": foundSpace[0]
     };
     return true;
   };
   
   $scope.badEllipsis = function() {
     var rx = /(.{0,5})([^\.](\.\.|\.{4,})[^\.])(.{0,9})/;
-    var puntiniSbagliati = $scope.data.ilRacconto.match(rx);
-    if (!puntiniSbagliati) return false;
+    var notThreeDots = $scope.data.ilRacconto.match(rx);
+    if (!notThreeDots) return false;
     $scope.errors.dots = {
-      "num": puntiniSbagliati[3].length,
-      "context": puntiniSbagliati[0]
+      "num": notThreeDots[3].length,
+      "context": notThreeDots[0]
     };
     return true;
   };
   
-  $scope.senzaParole = function() {
+  $scope.missingWords = function() {
     if ($scope.data.ilRacconto.indexOf($scope.data.parola1) === -1) {
-      $scope.errors.manca = $scope.data.parola1;
+      $scope.errors.wordMissing = $scope.data.parola1;
       return true;
     }
     if ($scope.data.ilRacconto.indexOf($scope.data.parola2) === -1) {
-      $scope.errors.manca = $scope.data.parola2;
+      $scope.errors.wordMissing = $scope.data.parola2;
       return true;
     }
     return false;

@@ -10,7 +10,7 @@
   
     <div ng-app="EditorErrante">
       
-      <div id="editor" ng-controller="Inserimento">
+      <div id="editor" ng-controller="EditorController">
 
         <div id="riga-parole">
           <label for="le-parole">Parole della settimana: 
@@ -66,7 +66,7 @@
 
       </div>
       
-      <div id="stats" ng-controller="Statistiche">
+      <div id="stats" ng-controller="ReportController">
       
         <div id="caratteri">
           Caratteri usati: 
@@ -112,10 +112,10 @@
               </span>
             </li>
 
-            <li ng-show="senzaParole()">
+            <li ng-show="missingWords()">
               Manca la parola 
               <span class="regola parola-mancante">
-                {{errors.manca}}
+                {{errors.wordMissing}}
               </span>
             </li>
 
