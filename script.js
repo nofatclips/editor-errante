@@ -80,16 +80,17 @@ function ReportController($scope, Data) {
     return true;
   };
   
+  var missingWord = function(word) {
+    if ($scope.data.ilRacconto.indexOf(word) === -1) {
+      $scope.errors.wordMissing = word;
+      return true;
+    }
+  }
+  
   $scope.missingWords = function() {
-    if ($scope.data.ilRacconto.indexOf($scope.data.parola1) === -1) {
-      $scope.errors.wordMissing = $scope.data.parola1;
-      return true;
-    }
-    if ($scope.data.ilRacconto.indexOf($scope.data.parola2) === -1) {
-      $scope.errors.wordMissing = $scope.data.parola2;
-      return true;
-    }
-    return false;
+	if (missingWord($scope.data.parola1)) return true;
+	if (missingWord($scope.data.parola2)) return true;
+	return false;
   };
 
 }
