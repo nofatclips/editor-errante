@@ -81,10 +81,12 @@ function ReportController($scope, Data) {
   };
   
   var missingWord = function(word) {
-    if ($scope.data.ilRacconto.indexOf(word) === -1) {
+	if (!word) return false
+    if ($scope.data.ilRacconto.search(new RegExp("\\W" + word + "\\W")) === -1) {
       $scope.errors.wordMissing = word;
       return true;
     }
+	return false
   }
   
   $scope.missingWords = function() {
