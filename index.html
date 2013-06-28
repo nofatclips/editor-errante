@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html> 
+
+  <head>
+    <title>Editor Errante</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+  </head>
+ 
+  <body>
+  
+    <div ng-app="EditorErrante" ng-cloak>
+      
+      <div id="editor" ng-controller="EditorController">
+
+        <div id="riga-parole">
+          <label for="le-parole">Parole della settimana: 
+            <div class="le-parole">
+              <input id="parola1" 
+                class="una-parola" 
+                name="parola1" 
+                ng-model="data.parola1" 
+                placeholder="Prima"
+                type="text" />
+              <input id="parola2" 
+                class="una-parola" 
+                name="parola2" 
+                ng-model="data.parola2" 
+                placeholder="Seconda"
+                type="text" />
+            </div>
+          </label>
+        </div>
+
+        <div id="riga-titolo">
+          <label for="il-titolo">Il titolo:
+            <input id="il-titolo"
+              class="titolo-racconto"
+              name="titolo"
+              ng-model="data.ilTitolo"
+              placeholder="Lunghezza a piacere"
+              type="text" />
+          </label>
+        </div>
+        
+        <div id="riga-racconto">
+          <label for="il-racconto">Il racconto: 
+            <textarea id="il-racconto" 
+              class="racconto" 
+              name="racconto" 
+              ng-model="data.ilRacconto" 
+              placeholder="Massimo 400 caratteri">
+            </textarea>
+          </label>
+        </div>
+        
+        <div id="riga-autore">
+          <label for="la-firma">Autore: 
+            <input id="la-firma" 
+              class="autore" 
+              name="autore" 
+              ng-model="data.laFirma" 
+              placeholder="Firmato"
+              type="text" />
+          </label>
+        </div>
+
+      </div>
+      
+      <div id="stats" ng-controller="ReportController">
+      
+        <div id="caratteri">
+          Caratteri usati: 
+          <span id="numero-caratteri-racconto" 
+            class="char-num" 
+            ng-class='{
+              "nel-limite": isValid(), 
+              "fuori-limite": !isValid()
+            }'>
+              {{data.ilRacconto|numChar}}
+          </span>
+        </div>
+        
+        <div id="interpunzione">
+          Interpunzione:
+          <ul>
+          
+            <li ng-show="invalidInterpunction()">
+              Manca uno spazio nei pressi di 
+              <span class="ortografia spazio-mancante">
+                {{errors.spaziaturaMancante.context}}
+              </span>
+            </li>
+
+			<li ng-show="invalidSpaces()">
+              Spaziatura di troppo nei pressi di 
+              <span class="ortografia spazio-eccessivo">
+                {{errors.spaziaturaTroppo.context}}
+              </span>
+            </li>
+
+            <li ng-show="spaceAfterApostrophe()">
+              Apostrofo seguito da spazio nei pressi di 
+              <span class="ortografia apostrofo-spazio">
+                {{errors.apostrofo.context}}
+              </span>
+            </li>
+            
+            <li ng-show="badEllipsis()">
+              {{errors.dots.num}} puntini di sospensione nei pressi di  
+              <span class="ortografia puntini-sbagliati">
+                {{errors.dots.context}}
+              </span>
+            </li>
+
+            <li ng-show="missingWords()">
+              Manca la parola 
+              <span class="regola parola-mancante">
+                {{errors.wordMissing}}
+              </span>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  
+    <script src="script.js"></script>
+    
+  </body>
+
+</html>
