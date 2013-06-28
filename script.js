@@ -24,13 +24,14 @@ function EditorController($scope, Data) {
 }
 
 //Controller
-function ReportController($scope, Data) {
+function ReportController($scope, $filter, Data) {
 
   $scope.data = Data;
   $scope.errors = {};
 
   $scope.isValid = function() {
-    return $scope.numChar() <= $scope.data.maxChar;
+	var numChar = $filter("numChar")($scope.data.ilRacconto);
+    return numChar <= $scope.data.maxChar;
   };
   
   $scope.invalidInterpunction = function() {
