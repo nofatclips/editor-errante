@@ -1,5 +1,15 @@
 //Application
-var editorErrante = angular.module("EditorErrante", []);
+var editorErrante = angular
+	.module("EditorErrante", [])
+	.config(function($routeProvider) {
+		$routeProvider.when("/", {
+			"templateUrl": "compose.html",
+			"controller": "ComposeController"
+		});
+		$routeProvider.otherwise({
+			"redirectTo": "/"
+		});
+	});
 
 //Service
 editorErrante.factory("Data", function() {
@@ -97,3 +107,6 @@ function ReportController($scope, $filter, Data) {
   };
 
 }
+
+editorErrante.controller("ComposeController", function() {
+});
