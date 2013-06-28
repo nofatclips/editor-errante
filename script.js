@@ -1,8 +1,8 @@
 //Application
-var numberToText = angular.module("EditorErrante", []);
+var editorErrante = angular.module("EditorErrante", []);
 
 //Service
-numberToText.factory("Data", function() {
+editorErrante.factory("Data", function() {
   return {
     "ilRacconto": "",
     "ilTitolo": "",
@@ -12,7 +12,7 @@ numberToText.factory("Data", function() {
   };
 });
 
-numberToText.filter("numChar", function() {
+editorErrante.filter("numChar", function() {
 	return function(theText) {
 		return theText.replace(/\n/g, "").replace(/\.\.\./g,"\u2026").length;
 	};
