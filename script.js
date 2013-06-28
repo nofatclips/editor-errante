@@ -1,5 +1,15 @@
 //Application
-var editorErrante = angular.module("EditorErrante", []);
+var editorErrante = angular
+	.module("EditorErrante", [])
+	.config(function($routeProvider) {
+		$routeProvider.when("/", {
+			"templateUrl": "compose.html",
+			"controller": "ComposeController"
+		});
+		$routeProvider.otherwise({
+			"redirectTo": "/"
+		});
+	});
 
 //Service
 editorErrante.factory("Data", function() {
@@ -24,13 +34,14 @@ function EditorController($scope, Data) {
 }
 
 //Controller
-function ReportController($scope, Data) {
+function ReportController($scope, $filter, Data) {
 
   $scope.data = Data;
   $scope.errors = {};
 
   $scope.isValid = function() {
-    return $scope.numChar() <= $scope.data.maxChar;
+	var numChar = $filter("numChar")($scope.data.ilRacconto);
+    return numChar <= $scope.data.maxChar;
   };
   
   $scope.invalidInterpunction = function() {
@@ -96,3 +107,6 @@ function ReportController($scope, Data) {
   };
 
 }
+
+editorErrante.controller("ComposeController", function() {
+});
