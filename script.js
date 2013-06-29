@@ -51,7 +51,14 @@ editorErrante.directive("spiegazioneErrore", function() {
 	return {
 		"restrict": "A",
 		link: function(scope, element, attributes) {
-			console.log(attributes.spiegazioneErrore);
+			element.bind("mouseenter", function() {
+				scope.spiegazioneErrore = attributes.spiegazioneErrore;
+				scope.$apply();
+			});
+            element.bind("mouseleave", function() {
+				scope.spiegazioneErrore = undefined;
+				scope.$apply();            
+            });
 		}
 	}
 });

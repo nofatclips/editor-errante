@@ -1,4 +1,4 @@
-<div id="editor" ng-controller="EditorController">
+<div id="editor" class="narranti-box" ng-controller="EditorController">
 
 	<div id="riga-parole">
 	  <label for="le-parole">Parole della settimana: 
@@ -52,9 +52,9 @@
 	  </label>
 	</div>
 
-	</div>
+</div>
 
-	<div id="stats" ng-controller="ReportController">
+<div id="stats" class="narranti-box" ng-controller="ReportController">
 
 	<div id="caratteri">
 	  Caratteri usati: 
@@ -108,5 +108,8 @@
 		</li>
 
 	  </ul>
-	</div>
+
+    <span ng-show="spiegazioneErrore" class="tooltip">{{spiegazioneErrore}}</span>
+
+    </div>
 </div>
