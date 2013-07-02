@@ -28,6 +28,22 @@ editorErrante.filter("numChar", function() {
 	};
 });
 
+editorErrante.directive("spiegazioneErrore", function() {
+	return {
+		"restrict": "A",
+		link: function(scope, element, attributes) {
+			element.bind("mouseenter", function() {
+				scope.spiegazioneErrore = attributes.spiegazioneErrore;
+				scope.$apply();
+			});
+            element.bind("mouseleave", function() {
+				scope.spiegazioneErrore = undefined;
+				scope.$apply();            
+            });
+		}
+	}
+});
+
 //Controller
 function EditorController($scope, Data) {
   $scope.data = Data;
