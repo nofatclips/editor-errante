@@ -28,25 +28,6 @@ editorErrante.filter("numChar", function() {
 	};
 });
 
-// From: https://github.com/davemo/intro-to-angularjs/blob/master/app/js/app.js
-/*
-app.directive("showsMessageWhenHovered", function() {
-  return {
-    restrict: "A", // A = Attribute, C = CSS Class, E = HTML Element, M = HTML Comment
-    link: function(scope, element, attributes) {
-      var originalMessage = scope.message;
-      element.bind("mouseenter", function() {
-        scope.message = attributes.message;
-        scope.$apply();
-      });
-      element.bind("mouseleave", function() {
-        scope.message = originalMessage;
-        scope.$apply();
-      });
-    }
-  };
-});
-*/
 editorErrante.directive("spiegazioneErrore", function() {
 	return {
 		"restrict": "A",

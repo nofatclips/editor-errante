@@ -5,7 +5,7 @@ body {
 
 .narranti-box {
     font-family: Times New Roman, serif;
-    font-size: 18px;
+    font-size: 1em;
 }
 
 .char-num {
@@ -22,7 +22,7 @@ body {
 
 textarea {
     height: 350px;
-    width: 280px;
+    width: 95%;
     display: block;
 }
 
@@ -38,15 +38,15 @@ textarea {
 #editor, #stats {
     margin: 10px 0;
     padding: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;  
+    display: inline-block;
+    -webkit-border-radius: 20px 20px 20px 20px;
+    -moz-border-radius: 20px 20px 20px 20px;
+    border-radius: 20px 20px 20px 20px; 
 }
 
 #editor {
-    background-color: #fd0;
+    background-color: #FD0;
     color: #885555;
-    display: inline-block;
 }
 
 #editor > div {
@@ -56,15 +56,8 @@ textarea {
 #stats {
     background-color: #00EAFF;
     color: #555588;
-    display: inline-block;
-}
-
-#stats {
-    display: inline-block;
-    padding: 20px;
     vertical-align: top;
 }
-
 
 .tooltip {
     background-color: rgba(16, 64, 192, 0.5);
@@ -72,5 +65,8 @@ textarea {
     color: #000088;
     margin: 10px;
     padding: 10px;
-    width: 100%;
+}
+
+.lista-errori li:hover {
+    background-color: rgba(255, 255, 192, 0.4);
 }
