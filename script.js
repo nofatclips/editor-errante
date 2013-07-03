@@ -54,16 +54,13 @@ editorErrante.directive("spiegazioneErrore", function() {
 });
 
 editorErrante.directive("cliccaPerNascondere", function() {
-    return {
-        restrict: "A",
-        link: function(scope, element) {
-            element.bind("click", function() {
-                scope.blocca = false;
-                scope.spiegazioneErrore = undefined;
-                scope.$apply();
-            });
-        }
-    }
+    return function(scope, element) {
+        element.bind("click", function() {
+            scope.blocca = false;
+            scope.spiegazioneErrore = undefined;
+            scope.$apply();
+        });
+    };
 });
 
 //Controller
