@@ -37,14 +37,12 @@ editorErrante.directive("spiegazioneErrore", function() {
                     scope.spiegazioneErrore = attributes.spiegazioneErrore;
                     scope.$apply();
                 }
-			});
-            element.bind("mouseleave", function() {
+			}).bind("mouseleave", function() {
                 if (!scope.blocca) {
                     scope.spiegazioneErrore = undefined;
                     scope.$apply();
                 }
-            });
-            element.bind("click", function() {
+            }).bind("click", function() {
 				scope.spiegazioneErrore = attributes.spiegazioneErrore;
                 scope.blocca = true;
 				scope.$apply();
