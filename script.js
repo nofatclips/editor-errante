@@ -33,15 +33,32 @@ editorErrante.directive("spiegazioneErrore", function() {
 		"restrict": "A",
 		link: function(scope, element, attributes) {
 			element.bind("mouseenter", function() {
+                if (!scope.blocca) {
+                    scope.spiegazioneErrore = attributes.spiegazioneErrore;
+                    scope.$apply();
+                }
+			}).bind("mouseleave", function() {
+                if (!scope.blocca) {
+                    scope.spiegazioneErrore = undefined;
+                    scope.$apply();
+                }
+            }).bind("click", function() {
 				scope.spiegazioneErrore = attributes.spiegazioneErrore;
+                scope.blocca = true;
 				scope.$apply();
-			});
-            element.bind("mouseleave", function() {
-				scope.spiegazioneErrore = undefined;
-				scope.$apply();            
             });
 		}
 	}
+});
+
+editorErrante.directive("cliccaPerNascondere", function() {
+    return function(scope, element) {
+        element.bind("click", function() {
+            scope.blocca = false;
+            scope.spiegazioneErrore = undefined;
+            scope.$apply();
+        });
+    };
 });
 
 //Controller
