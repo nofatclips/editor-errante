@@ -72,35 +72,35 @@
 	  Interpunzione:
 	  <ul class="lista-errori">
 	  
-		<li ng-show="invalidInterpunction()" spiegazione-errore = "I segni di punteggiatura devono, sempre, essere seguiti da uno spazio.">
+		<li ng-show="invalidInterpunction()" errore="spaziaturaMancante" spiegazione-errore = "I segni di punteggiatura devono, sempre, essere seguiti da uno spazio.">
 		  Manca uno spazio nei pressi di 
 			<span class = "ortografia spazio-mancante">
 				{{errors.spaziaturaMancante.context}}
 			</span>
 		</li>
 
-		<li ng-show="invalidSpaces()" spiegazione-errore = "I segni di punteggiatura non devono essere preceduti da uno spazio.">
+		<li ng-show="invalidSpaces()" errore="spaziaturaTroppo" spiegazione-errore = "I segni di punteggiatura non devono essere preceduti da uno spazio.">
 			Spaziatura di troppo nei pressi di 
 			<span class = "ortografia spazio-eccessivo" >
 				{{errors.spaziaturaTroppo.context}}
 			</span>
 		</li>
 
-		<li ng-show="spaceAfterApostrophe()" spiegazione-errore = "L'apostrofo non deve essere seguito da uno spazio.">
+		<li ng-show="spaceAfterApostrophe()" errore="apostrofo" spiegazione-errore = "L'apostrofo non deve essere seguito da uno spazio.">
 		  Apostrofo seguito da spazio nei pressi di 
 			<span class = "ortografia apostrofo-spazio" >
 				{{errors.apostrofo.context}}
 			</span>
 		</li>
 		
-		<li ng-show="badEllipsis()" spiegazione-errore = "I puntini di sospensione devono essere tre. No, davvero...">
+		<li ng-show="badEllipsis()" errore="dots" spiegazione-errore = "I puntini di sospensione devono essere tre. No, davvero...">
 		  {{errors.dots.num}} puntini di sospensione nei pressi di  
 		  <span class="ortografia puntini-sbagliati">
 			{{errors.dots.context}}
 		  </span>
 		</li>
 
-		<li ng-show="missingWords()" spiegazione-errore = "Una regola &grave; una regola &grave; una regola.">
+		<li ng-show="missingWords()" errore="wordMissing" spiegazione-errore = "Una regola &grave; una regola &grave; una regola.">
 		  Manca la parola 
 		  <span class="regola parola-mancante">
 			{{errors.wordMissing}}
