@@ -28,7 +28,7 @@ editorErrante.filter("numChar", function() {
 	};
 });
 
-editorErrante.filter("spazioMancante", function() {
+editorErrante.filter("spaziaturaMancante", function() {
     var rx = /(.{0,5})[\.,;:\?\!][a-zA-Z](.{0,9})/;
     return function(theText) {
         var missingSpace = theText.match(rx);
@@ -37,7 +37,7 @@ editorErrante.filter("spazioMancante", function() {
     };
 });
 
-editorErrante.filter("spazioDiTroppo", function() {
+editorErrante.filter("spaziaturaTroppo", function() {
     var rx = /(.{0,5}) [\.,;:\?\!](.{0,9})/;
     return function(theText) {    
         var unrequiredSpace = theText.match(rx);
@@ -49,7 +49,7 @@ editorErrante.filter("spazioDiTroppo", function() {
 editorErrante.filter("spazioDopoApostrofo", function() {
     var exceptionsToTheRule = [
       / po$/
-    ];
+    ]; /*  / po$|^po$/   */
     var rx = /(.{0,5})' (.{0,9})/;
     return function(theText) {
         var foundSpace = theText.match(rx);
@@ -78,7 +78,7 @@ editorErrante.filter("parolaMancante", function() {
     return function(word, theText) {
         if (!word) return "";
         if (theText.search(theWord(word)) === -1) {
-            return word;
+            return {"word": word};
         }
         return "";
     };
@@ -129,49 +129,51 @@ function EditorController($scope, Data) {
 //Controller
 function ReportController($scope, $filter, Data) {
 
-  $scope.data = Data;
-  $scope.errors = {};
-
-  $scope.isValid = function() {
-	var numChar = $filter("numChar")($scope.data.ilRacconto);
-    return numChar <= $scope.data.maxChar;
-  };
+    $scope.data = Data;
+    $scope.errors = {};
   
-  $scope.invalidInterpunction = function() {
-    var context = $filter("spazioMancante")($scope.data.ilRacconto);
-    $scope.errors.spaziaturaMancante = {
-      "context": context
+    var createContext = function(contextData) {
+        if (!contextData) return {};
+        if (typeof contextData === "string") return {"context": contextData};
+        return contextData;
     };
-    return context!=="";
-  };
+    
+    var detectError = function(errorName, theText) {
+        var contextData = $filter(errorName)(theText || $scope.data.ilRacconto);
+        $scope.errors[errorName] = createContext(contextData);
+        return contextData!=="";        
+    }
 
-  $scope.invalidSpaces = function() {
-    var context = $filter("spazioDiTroppo")($scope.data.ilRacconto);
-    $scope.errors.spaziaturaTroppo = {
-      "context": context
+    $scope.isValid = function() {
+        var numChar = $filter("numChar")($scope.data.ilRacconto);
+        return numChar <= $scope.data.maxChar;
     };
-    return context!=="";
-  };
+  
+    $scope.invalidInterpunction = function() {
+        return detectError("spaziaturaMancante");
+    };
 
-  $scope.spaceAfterApostrophe = function() {
-    var context = $filter("spazioDopoApostrofo")($scope.data.ilRacconto);
-    $scope.errors.apostrofo = {
-      "context": context
+    $scope.invalidSpaces = function() {
+        return detectError("spaziaturaTroppo");
     };
-    return context!=="";
-  };
-  
-  $scope.badEllipsis = function() {
-    var context = $filter("puntiniSospensivi")($scope.data.ilRacconto);
-    $scope.errors.dots = context;
-    return context!=="";
-  };
-  
+    
+    $scope.spaceAfterApostrophe = function() {
+        return detectError("spazioDopoApostrofo");
+    };
+    
+    $scope.badEllipsis = function() {
+        return detectError("puntiniSospensivi");
+    };
+
+    $scope.missingWords2 = function() {
+        return detectError("parolaMancante");
+    };
+    
   $scope.missingWords = function() {
     var parola = $filter("parolaMancante"),
         testo = $scope.data.ilRacconto;
     var context = parola($scope.data.parola1, testo) || parola($scope.data.parola2, testo)
-    $scope.errors.wordMissing = context;
+    $scope.errors.parolaMancante = createContext(context);
 	return context!=="";
   };
 
