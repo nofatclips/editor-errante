@@ -35,18 +35,14 @@ editorErrante.filter("spaziaturaMancante", function() {
         if (!missingSpace) return "";
         return missingSpace[0];
     };
-});
-
-editorErrante.filter("spaziaturaTroppo", function() {
+}).filter("spaziaturaTroppo", function() {
     var rx = /(.{0,5}) [\.,;:\?\!](.{0,9})/;
     return function(theText) {    
         var unrequiredSpace = theText.match(rx);
         if (!unrequiredSpace) return "";
         return unrequiredSpace[0];
     };
-});
-
-editorErrante.filter("spazioDopoApostrofo", function() {
+}).filter("spazioDopoApostrofo", function() {
     var exceptionsToTheRule = [
       / po$/
     ]; /*  / po$|^po$/   */
@@ -59,9 +55,7 @@ editorErrante.filter("spazioDopoApostrofo", function() {
         }
         return foundSpace[0];
     };
-});
-
-editorErrante.filter("puntiniSospensivi", function() {
+}).filter("puntiniSospensivi", function() {
     var rx = /(.{0,5})([^\.](\.\.|\.{4,})[^\.])(.{0,9})/;
     return function(theText) {
         var notThreeDots = theText.match(rx);
@@ -71,9 +65,7 @@ editorErrante.filter("puntiniSospensivi", function() {
             "context": notThreeDots[0]
         };
     };
-});
-
-editorErrante.filter("parolaMancante", function() {
+}).filter("parolaMancante", function() {
     var theWord = function(word) {return new RegExp("\\W" + word + "\\W");}
     return function(word, theText) {
         if (!word) return "";
