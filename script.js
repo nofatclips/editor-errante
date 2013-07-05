@@ -46,18 +46,18 @@ editorErrante.filter("cercaParola", function() {
         if (!unrequiredSpace) return "";
         return unrequiredSpace[0];
     };
-}).filter("spazioDopoApostrofo", function(cercaParolaFilter) {
+}).filter("spazioDopoApostrofo", function (cercaParolaFilter) {
     var exceptionsToTheRule = [
       "po"
-    ]; /*  / po$|^po$/   */
+    ];
     var rx = /(.{0,5})' (.{0,9})/;
-    return function(theText) {
+    return function (theText) {
         var foundSpace = theText.match(rx);
         if (!foundSpace) return "";
-        for (var i=0, l=exceptionsToTheRule.length; i<l; i++) {
-          if (foundSpace[1].match(cercaParolaFilter(exceptionsToTheRule[i]))) return "";
-        }
-        return foundSpace[0];
+        var isException = exceptionsToTheRule.some(function (word) {
+            return foundSpace[1].match(cercaParolaFilter(word));
+        });
+        return (isException)? "" : foundSpace[0];
     };
 }).filter("puntiniSospensivi", function() {
     var rx = /(.{0,5})([^\.](\.\.|\.{4,})[^\.])(.{0,9})/;
@@ -69,7 +69,7 @@ editorErrante.filter("cercaParola", function() {
             "context": notThreeDots[0]
         };
     };
-}).filter("parolaMancante", function(cercaParolaFilter) {
+}).filter("parolaMancante", function (cercaParolaFilter) {
     return function(word, theText) {
         if (!word) return "";
         if (theText.search(cercaParolaFilter(word)) === -1) {
