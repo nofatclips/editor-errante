@@ -46,16 +46,16 @@ editorErrante.filter("cercaParola", function() {
         if (!unrequiredSpace) return "";
         return unrequiredSpace[0];
     };
-}).filter("spazioDopoApostrofo", function() {
+}).filter("spazioDopoApostrofo", function(cercaParolaFilter) {
     var exceptionsToTheRule = [
-      / po$/
+      "po"
     ]; /*  / po$|^po$/   */
     var rx = /(.{0,5})' (.{0,9})/;
     return function(theText) {
         var foundSpace = theText.match(rx);
         if (!foundSpace) return "";
         for (var i=0, l=exceptionsToTheRule.length; i<l; i++) {
-          if (foundSpace[1].match(exceptionsToTheRule[i])) return "";
+          if (foundSpace[1].match(cercaParolaFilter(exceptionsToTheRule[i]))) return "";
         }
         return foundSpace[0];
     };
