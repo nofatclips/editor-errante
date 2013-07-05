@@ -28,7 +28,11 @@ editorErrante.filter("numChar", function() {
 	};
 });
 
-editorErrante.filter("spaziaturaMancante", function() {
+editorErrante.filter("cercaParola", function() {
+    return function(word) {
+        return new RegExp("\\b" + word + "\\b", "i");
+    }
+}).filter("spaziaturaMancante", function() {
     var rx = /(.{0,5})[\.,;:\?\!][a-zA-Z](.{0,9})/;
     return function(theText) {
         var missingSpace = theText.match(rx);
@@ -65,11 +69,10 @@ editorErrante.filter("spaziaturaMancante", function() {
             "context": notThreeDots[0]
         };
     };
-}).filter("parolaMancante", function() {
-    var theWord = function(word) {return new RegExp("\\b" + word + "\\b", "i");}
+}).filter("parolaMancante", function(cercaParolaFilter) {
     return function(word, theText) {
         if (!word) return "";
-        if (theText.search(theWord(word)) === -1) {
+        if (theText.search(cercaParolaFilter(word)) === -1) {
             return {"word": word};
         }
         return "";
