@@ -66,7 +66,7 @@ editorErrante.filter("spaziaturaMancante", function() {
         };
     };
 }).filter("parolaMancante", function() {
-    var theWord = function(word) {return new RegExp("\\W" + word + "\\W|^" + word + "\\W", "i");}
+    var theWord = function(word) {return new RegExp("\\b" + word + "\\b", "i");}
     return function(word, theText) {
         if (!word) return "";
         if (theText.search(theWord(word)) === -1) {
