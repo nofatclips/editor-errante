@@ -60,7 +60,7 @@ editorErrante.filter("cercaParola", function() {
         return (isException)? "" : foundSpace[0];
     };
 }).filter("puntiniSospensivi", function() {
-    var rx = /(.{0,5})([^\.](\.\.|\.{4,})[^\.])(.{0,9})/;
+    var rx = /(.{0,5})([^\.](\.\.|\.{4,})([^\.]|$))(.{0,9})/;
     return function(theText) {
         var notThreeDots = theText.match(rx);
         if (!notThreeDots) return "";
