@@ -121,7 +121,15 @@ function EditorController($scope, Data) {
   $scope.data = Data;
 }
 
-//Controller
+function TastieraController($scope, Data) {
+    $scope.data = Data;
+    
+    $scope.accentata = function(a,b,c) {
+        console.debug(a,b,c);
+        insertAtCursor(a);
+    }
+}
+
 function ReportController($scope, $filter, Data) {
 
     $scope.data = Data;
@@ -176,3 +184,25 @@ function ReportController($scope, $filter, Data) {
 
 editorErrante.controller("ComposeController", function() {
 });
+
+function insertAtCursor(myValue) {
+    var myField = document.getElementById("il-racconto");
+    
+    //Source: http://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
+    //IE support
+    if (document.selection) {
+        myField.focus();
+        sel = document.selection.createRange();
+        sel.text = myValue;
+    }
+    //MOZILLA and others
+    else if (myField.selectionStart || myField.selectionStart == '0') {
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value = myField.value.substring(0, startPos)
+            + myValue
+            + myField.value.substring(endPos, myField.value.length);
+    } else {
+        myField.value += myValue;
+    }
+}

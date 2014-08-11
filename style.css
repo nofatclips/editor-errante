@@ -35,7 +35,7 @@ textarea {
     color: #f22;
 }
 
-#editor, #stats {
+#editor, #stats ,  #tastierino {
     margin: 10px 0;
     padding: 20px;
     display: inline-block;
@@ -57,6 +57,17 @@ textarea {
     background-color: #00EAFF;
     color: #555588;
     vertical-align: top;
+}
+
+#tastierino {
+    background-color: #D0F;
+    color: #885555;
+    vertical-align: top;
+}
+
+#tastierino button {
+    font-family: Times New Roman, serif;
+    font-size: 16px;
 }
 
 .tooltip {
