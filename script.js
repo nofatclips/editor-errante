@@ -25,9 +25,9 @@ editorErrante.factory("Data", function() {
 editorErrante.filter("numChar", function() {
 	return function(theText) {
 		return theText
-            .replace(/\n/g, " ")
+            .replace(/\n+/g, "\n")
             .replace(/\.\.\./g,"\u2026")
-            .replace(/\s+/g," ")
+//            .replace(/\s+/g," ")
             .length;
 	};
 });
@@ -49,6 +49,13 @@ editorErrante.filter("cercaParola", function() {
         var unrequiredSpace = theText.match(rx);
         if (!unrequiredSpace) return "";
         return unrequiredSpace[0];
+    };
+}).filter("spaziaturaMultipla", function() {
+    var rx = /(.{0,5})[ \t][ \t]+(.{0,9})/;
+    return function(theText) {    
+        var duplicateSpace = theText.match(rx);
+        if (!duplicateSpace) return "";
+        return duplicateSpace[0];
     };
 }).filter("spazioDopoApostrofo", function (cercaParolaFilter) {
     var exceptionsToTheRule = [
@@ -166,6 +173,10 @@ function ReportController($scope, $filter, Data) {
     
     $scope.spaceAfterApostrophe = function() {
         return detectError("spazioDopoApostrofo");
+    };
+    
+    $scope.doubleSpace = function() {
+        return detectError("spaziaturaMultipla");
     };
     
     $scope.badEllipsis = function() {
