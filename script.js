@@ -24,7 +24,11 @@ editorErrante.factory("Data", function() {
 
 editorErrante.filter("numChar", function() {
 	return function(theText) {
-		return theText.replace(/\n/g, "").replace(/\.\.\./g,"\u2026").length;
+		return theText
+            .replace(/\n/g, " ")
+            .replace(/\.\.\./g,"\u2026")
+            .replace(/\s+/g," ")
+            .length;
 	};
 });
 
