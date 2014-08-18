@@ -90,6 +90,18 @@ editorErrante.filter("cercaParola", function() {
     };
 });
 
+editorErrante.directive("carattere", function() {
+    return {
+        "restrict": "E",
+        "link": function(scope, element, attributes) {
+            element.html("<button>" + attributes.lettera + "</button>");
+            element.bind("click", function() {
+                scope.accentata(attributes.lettera);
+            });
+        }
+    }
+});
+
 editorErrante.directive("spiegazioneErrore", function() {
 	return {
 		"restrict": "A",
@@ -136,7 +148,6 @@ function TastieraController($scope, Data) {
     $scope.data = Data;
     
     $scope.accentata = function(a,b,c) {
-        console.debug(a,b,c);
         insertAtCursor(a);
     }
 }
