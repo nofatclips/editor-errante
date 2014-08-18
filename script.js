@@ -146,10 +146,7 @@ function EditorController($scope, Data) {
 
 function TastieraController($scope, Data) {
     $scope.data = Data;
-    
-    $scope.accentata = function(a,b,c) {
-        insertAtCursor(a);
-    }
+    $scope.accentata = insertAtCursor;
 }
 
 function ReportController($scope, $filter, Data) {
@@ -199,7 +196,7 @@ function ReportController($scope, $filter, Data) {
 
 editorErrante.controller("ComposeController", function() {});
 
-function insertAtCursor(myValue) {
+var insertAtCursor = function (myValue) {
     var myField = document.getElementById("il-racconto");
     
     //Source: http://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
