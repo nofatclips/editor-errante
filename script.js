@@ -168,43 +168,32 @@ function ReportController($scope, $filter, Data) {
         $scope.errors[errorName] = createContext(contextData);
         return contextData!=="";        
     }
+    
+    var errorToDetect = function(errorName, theText) {
+        return function() {
+            return detectError(errorName, theText);
+        }   
+    }
 
     $scope.isValid = function() {
         var numChar = $filter("numChar")($scope.data.ilRacconto);
         return numChar <= $scope.data.maxChar;
     };
   
-    $scope.invalidInterpunction = function() {
-        return detectError("spaziaturaMancante");
+    $scope.invalidInterpunction = errorToDetect("spaziaturaMancante");
+    $scope.invalidSpaces = errorToDetect("spaziaturaTroppo");
+    $scope.spaceAfterApostrophe = errorToDetect("spazioDopoApostrofo");
+    $scope.doubleSpace = errorToDetect("spaziaturaMultipla");
+    $scope.badEllipsis = errorToDetect("puntiniSospensivi");
+    $scope.missingWords2 = errorToDetect("parolaMancante");
+        
+    $scope.missingWords = function() {
+        var parola = $filter("parolaMancante"),
+            testo = $scope.data.ilRacconto;
+        var context = parola($scope.data.parola1, testo) || parola($scope.data.parola2, testo)
+        $scope.errors.parolaMancante = createContext(context);
+        return context!=="";
     };
-
-    $scope.invalidSpaces = function() {
-        return detectError("spaziaturaTroppo");
-    };
-    
-    $scope.spaceAfterApostrophe = function() {
-        return detectError("spazioDopoApostrofo");
-    };
-    
-    $scope.doubleSpace = function() {
-        return detectError("spaziaturaMultipla");
-    };
-    
-    $scope.badEllipsis = function() {
-        return detectError("puntiniSospensivi");
-    };
-
-    $scope.missingWords2 = function() {
-        return detectError("parolaMancante");
-    };
-    
-  $scope.missingWords = function() {
-    var parola = $filter("parolaMancante"),
-        testo = $scope.data.ilRacconto;
-    var context = parola($scope.data.parola1, testo) || parola($scope.data.parola2, testo)
-    $scope.errors.parolaMancante = createContext(context);
-	return context!=="";
-  };
 
 }
 
