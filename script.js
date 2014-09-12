@@ -246,6 +246,8 @@ function CanvasController($scope, Data) {
         redrawSettimana();
     }
 
+    $scope.redrawJpeg();
+    
 }
 
 function ReportController($scope, $filter, Data) {
