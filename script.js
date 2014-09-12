@@ -19,6 +19,7 @@ editorErrante.factory("Data", function() {
     "parola1": "",
     "parola2": "",
     "laFirma": "",
+    "laData": "",
     "maxChar": 400
   };
 });
@@ -155,20 +156,37 @@ function CanvasController($scope, Data) {
     $scope.data = Data;
     var canvas = document.getElementById('quattrocento-jpeg');
     var context = canvas.getContext('2d');
+    var logoErranti = new Image();
+    logoErranti.src = "erranti_sml.jpg";
+    var center = {
+        x: 207,
+        y: 625
+    }, size = {
+        x: 85,
+        y: 96
+    };
     
     var clearCanvas = function() {
         context.clearRect(0, 0, canvas.width, canvas.height);
     }
     
+    var redrawImage = function() {
+        context.drawImage(logoErranti, center.x-(size.x/2), center.y-(size.y/2), size.x, size.y);
+    }
+    
     var redrawTitle = function() {
         context.font = 'bold 20pt Cambria';
         context.fillStyle = 'white';
+        context.textBaseline = 'alphabetic';
+        context.textAlign = "left";
         context.fillText($scope.data.ilTitolo.toUpperCase(), 20, 30, 374);
     }
     
     var redrawText = function() {
         context.font = '18pt Cambria';        
         context.fillStyle = 'white';
+        context.textBaseline = 'alphabetic';
+        context.textAlign = "left";
         var lines = splitText($scope.data.ilRacconto);
         lines.forEach(function(line, num) {
             context.fillText(line.trim(), 10, 70 + num*24, 394);
@@ -178,25 +196,46 @@ function CanvasController($scope, Data) {
     var redrawName = function() {
         context.font = 'italic 20pt Cambria';
         context.fillStyle = 'white';
-        var nome = $scope.data.laFirma;
-        var misura = context.measureText(nome).width;
-        var posizione = Math.max (10, 400-misura);
-        context.fillText(nome, posizione, 480, 390);
+        context.textBaseline = 'alphabetic';
+        context.textAlign = "right";
+        context.fillText($scope.data.laFirma, 404, 480, 390);
     }
     
     var redrawWords = function() {
         context.font = 'bold 20pt Cambria';
         context.fillStyle = 'white';
-        context.fillText(inizialeMaiuscola($scope.data.parola1), 20, 600, 150);
-        context.fillText(inizialeMaiuscola($scope.data.parola2), 254, 600, 150);
+        context.textBaseline = 'middle';
+        context.textAlign = "left";
+        context.fillText(inizialeMaiuscola($scope.data.parola1), 5, center.y, 150);
+        context.fillText(inizialeMaiuscola($scope.data.parola2), 254, center.y, 150);
+    }
+    
+    var redrawNE = function() {
+        context.font = '18pt Cambria';
+        context.fillStyle = 'white';
+        context.textBaseline = 'alphabetic';
+        context.textAlign = "center";
+        context.fillText("NarrantiErranti", center.x, 698);
+    }
+    
+    var redrawSettimana = function() {
+        if (!$scope.data.laData) return;
+        context.font = '20pt Cambria';
+        context.fillStyle = 'white';
+        context.textBaseline = 'alphabetic';
+        context.textAlign = "center";
+        context.fillText("Settimana " + $scope.data.laData, center.x, 570);
     }
     
     $scope.redrawJpeg = function() {
         clearCanvas();
+        redrawImage();
         redrawTitle();
         redrawText();
         redrawName();
         redrawWords();
+        redrawNE();
+        redrawSettimana();
     }
 
 }
