@@ -95,3 +95,10 @@ textarea {
     height: 709px;
     background-color: #0f3460;
 }
+
+.istruzioni {
+    position: relative;
+    top: -25px;
+    text-align: center;
+    font-size: 20px;
+}    
