@@ -35,7 +35,7 @@ textarea {
     color: #f22;
 }
 
-#editor, #stats ,  #tastierino {
+#editor, #stats, #tastierino, #jpeg-canvas {
     margin: 10px 0;
     padding: 20px;
     display: inline-block;
@@ -84,4 +84,14 @@ textarea {
 
 .lista-errori li:hover {
     background-color: rgba(255, 255, 192, 0.4);
+}
+
+#jpeg-canvas {
+    vertical-align: top;
+}
+
+#quattrocento-jpeg {
+    width: 414px;
+    height: 709px;
+    background-color: #0f3460;
 }
