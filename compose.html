@@ -1,4 +1,4 @@
-<div id="editor" class="narranti-box" ng-controller="EditorController">
+<div id="editor" class="narranti-box narranti-container" ng-controller="EditorController">
 
 	<div id="riga-parole">
 	  <label for="le-parole">Parole della settimana: 
@@ -65,7 +65,7 @@
 
 </div>
 
-<div id="stats" class="narranti-box" ng-controller="ReportController">
+<div id="stats" class="narranti-box narranti-container" ng-controller="ReportController">
 
 	<div id="caratteri">
 	  Caratteri usati: 
@@ -132,7 +132,7 @@
     </div>
 </div>
 
-<div id="tastierino" class="narranti-box" ng-controller="TastieraController">
+<div id="tastierino" class="narranti-box narranti-container" ng-controller="TastieraController">
 
     <div class="accento-grave">
         <carattere lettera="&Agrave;"></carattere>
@@ -160,7 +160,7 @@
 
 </div>
 
-<div id="jpeg-canvas" class="narranti-box" ng-controller="CanvasController">
+<div id="jpeg-canvas" class="narranti-box narranti-container" ng-controller="CanvasController">
     <div class="istruzioni">Clicca per aggiornare l'anteprima</div>
     <canvas width="414px" height="709px" ng-click="redrawJpeg()" id="quattrocento-jpeg"></canvas>
 

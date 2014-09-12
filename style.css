@@ -3,7 +3,7 @@ body {
     font-size: 18px;
 }
 
-.narranti-box {
+.narranti-container {
     font-family: Times New Roman, serif;
     font-size: 1em;
 }
@@ -35,7 +35,7 @@ textarea {
     color: #f22;
 }
 
-#editor, #stats, #tastierino, #jpeg-canvas {
+.narranti-box {
     margin: 10px 0;
     padding: 20px;
     display: inline-block;
