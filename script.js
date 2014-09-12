@@ -165,9 +165,13 @@ function CanvasController($scope, Data) {
         x: 85,
         y: 96
     };
+    var posizioneUltimaRiga;
+    var interlinea = 24;
     
     var clearCanvas = function() {
         context.clearRect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = '#0f3460';
+        context.fillRect(0, 0, canvas.width, canvas.height);
     }
     
     var redrawImage = function() {
@@ -189,7 +193,8 @@ function CanvasController($scope, Data) {
         context.textAlign = "left";
         var lines = splitText($scope.data.ilRacconto);
         lines.forEach(function(line, num) {
-            context.fillText(line.trim(), 10, 70 + num*24, 394);
+            posizioneUltimaRiga = 70 + num * interlinea;
+            context.fillText(line.trim(), 10, posizioneUltimaRiga, 394);
         });
     }
     
@@ -198,7 +203,8 @@ function CanvasController($scope, Data) {
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
         context.textAlign = "right";
-        context.fillText($scope.data.laFirma, 404, 480, 390);
+        var posizioneFirma = Math.min(posizioneUltimaRiga + interlinea * 2, 540);
+        context.fillText($scope.data.laFirma, 404, posizioneFirma, 390);
     }
     
     var redrawWords = function() {
