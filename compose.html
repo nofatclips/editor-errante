@@ -1,167 +1,180 @@
-<div id="editor" class="narranti-box narranti-container" ng-controller="EditorController">
+<div class="narranti-container">
 
-	<div id="riga-parole">
-	  <label for="le-parole">Parole della settimana: 
-		<div class="le-parole">
-		  <input id="parola1" 
-			class="una-parola" 
-			name="parola1" 
-			ng-model="data.parola1" 
-			placeholder="Prima"
-			type="text" />
-		  <input id="parola2" 
-			class="una-parola" 
-			name="parola2" 
-			ng-model="data.parola2" 
-			placeholder="Seconda"
-			type="text" />
-		</div>
-	  </label>
-	</div>
+    <div id="editor" class="narranti-box" ng-controller="EditorController">
+
+        <div id="riga-parole">
+          <label for="le-parole">Parole della settimana: 
+            <div class="le-parole">
+              <input id="parola1" 
+                class="una-parola" 
+                name="parola1" 
+                ng-model="data.parola1" 
+                placeholder="Prima"
+                type="text" />
+              <input id="parola2" 
+                class="una-parola" 
+                name="parola2" 
+                ng-model="data.parola2" 
+                placeholder="Seconda"
+                type="text" />
+            </div>
+          </label>
+        </div>
+        
+        <div id="riga-data">
+          <label for="la-data">La settimana:
+            <input id="la-data"
+              class="data-racconto"
+              name="data"
+              ng-model="data.laData"
+              placeholder="Numero - Anno"
+              type="text" />
+          </label>
+        </div>
+
+        <div id="riga-titolo">
+          <label for="il-titolo">Il titolo:
+            <input id="il-titolo"
+              class="titolo-racconto"
+              name="titolo"
+              ng-model="data.ilTitolo"
+              placeholder="Lunghezza a piacere"
+              type="text" />
+          </label>
+        </div>
+
+        <div id="riga-racconto">
+          <label for="il-racconto">Il racconto: 
+            <textarea id="il-racconto" 
+              class="racconto" 
+              name="racconto" 
+              ng-model="data.ilRacconto" 
+              placeholder="Massimo 400 caratteri">
+            </textarea>
+          </label>
+        </div>
+
+        <div id="riga-autore">
+          <label for="la-firma">Autore: 
+            <input id="la-firma" 
+              class="autore" 
+              name="autore" 
+              ng-model="data.laFirma" 
+              placeholder="Firmato"
+              type="text" />
+          </label>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="narranti-container">
+
+    <div id="jpeg-canvas" class="narranti-box narranti-container" ng-controller="CanvasController">
+        <div class="istruzioni">Clicca per aggiornare l'anteprima</div>
+        <canvas width="414px" height="709px" ng-click="redrawJpeg()" id="quattrocento-jpeg"></canvas>
+
+    </div>
     
-    <div id="riga-data">
-	  <label for="la-data">La settimana:
-		<input id="la-data"
-		  class="data-racconto"
-		  name="data"
-		  ng-model="data.laData"
-		  placeholder="Numero - Anno"
-		  type="text" />
-	  </label>
-	</div>
-
-	<div id="riga-titolo">
-	  <label for="il-titolo">Il titolo:
-		<input id="il-titolo"
-		  class="titolo-racconto"
-		  name="titolo"
-		  ng-model="data.ilTitolo"
-		  placeholder="Lunghezza a piacere"
-		  type="text" />
-	  </label>
-	</div>
-
-	<div id="riga-racconto">
-	  <label for="il-racconto">Il racconto: 
-		<textarea id="il-racconto" 
-		  class="racconto" 
-		  name="racconto" 
-		  ng-model="data.ilRacconto" 
-		  placeholder="Massimo 400 caratteri">
-		</textarea>
-	  </label>
-	</div>
-
-	<div id="riga-autore">
-	  <label for="la-firma">Autore: 
-		<input id="la-firma" 
-		  class="autore" 
-		  name="autore" 
-		  ng-model="data.laFirma" 
-		  placeholder="Firmato"
-		  type="text" />
-	  </label>
-	</div>
-
 </div>
 
-<div id="stats" class="narranti-box narranti-container" ng-controller="ReportController">
+<div class="narranti-container">
+    
+    <div id="tastierino" class="narranti-box" ng-controller="TastieraController">
 
-	<div id="caratteri">
-	  Caratteri usati: 
-	  <span id="numero-caratteri-racconto" 
-		class="char-num" 
-		ng-class='{
-		  "nel-limite": isValid(), 
-		  "fuori-limite": !isValid()
-		}'>
-		  {{data.ilRacconto|numChar}}
-	  </span>
-	</div>
+        <div class="accento-grave">
+            <carattere lettera="&Agrave;"></carattere>
+            <carattere lettera="&Egrave;"></carattere>
+            <carattere lettera="&Igrave;"></carattere>
+            <carattere lettera="&Ograve;"></carattere>
+            <carattere lettera="&Ugrave;"></carattere>
+        </div>
 
-	<div id="interpunzione">
-	  Interpunzione:
-	  <ul class="lista-errori">
-	  
-		<li ng-show="invalidInterpunction()" errore="spaziaturaMancante" spiegazione-errore = "I segni di punteggiatura devono, sempre, essere seguiti da uno spazio.">
-		  Manca uno spazio nei pressi di 
-			<span class = "ortografia spazio-mancante">
-				{{errors.spaziaturaMancante.context}}
-			</span>
-		</li>
+        <div class="accento-acuto">
+            <carattere lettera="&Aacute;"></carattere>
+            <carattere lettera="&Eacute;"></carattere>
+            <carattere lettera="&Iacute;"></carattere>
+            <carattere lettera="&Oacute;"></carattere>
+            <carattere lettera="&Uacute;"></carattere>
+        </div>
 
-		<li ng-show="invalidSpaces()" errore="spaziaturaTroppo" spiegazione-errore = "I segni di punteggiatura non devono essere preceduti da uno spazio.">
-			Spaziatura di troppo nei pressi di 
-			<span class = "ortografia spazio-eccessivo" >
-				{{errors.spaziaturaTroppo.context}}
-			</span>
-		</li>
+        <div class="altro">
+            <carattere lettera="&uuml;"></carattere>
+            <carattere lettera="&Uuml;"></carattere>
+            <carattere lettera="&mdash;"></carattere>
+            <carattere lettera="&laquo;"></carattere>
+            <carattere lettera="&raquo;"></carattere>
+        </div>
 
-        <li ng-show="doubleSpace()" errore="spaziaturaMultipla" spiegazione-errore = "Due spaziature consecutive sono quasi sempre un refuso.">
-			Spaziatura multipla nei pressi di 
-			<span class = "ortografia spazio-multiplo" >
-				{{errors.spaziaturaMultipla.context}}
-			</span>
-		</li>
+    </div>    
+    
+    <div id="stats" class="narranti-box" ng-controller="ReportController">
 
-		<li ng-show="spaceAfterApostrophe()" errore="spazioDopoApostrofo" spiegazione-errore = "L'apostrofo non deve essere seguito da uno spazio.">
-		  Apostrofo seguito da spazio nei pressi di 
-			<span class = "ortografia apostrofo-spazio" >
-				{{errors.spazioDopoApostrofo.context}}
-			</span>
-		</li>
-		
-		<li ng-show="badEllipsis()" errore="puntiniSospensivi" spiegazione-errore = "I puntini di sospensione devono essere tre. No, davvero...">
-		  {{errors.puntiniSospensivi.num}} puntini di sospensione nei pressi di  
-		  <span class="ortografia puntini-sbagliati">
-			{{errors.puntiniSospensivi.context}}
-		  </span>
-		</li>
+        <div id="caratteri">
+          Caratteri usati: 
+          <span id="numero-caratteri-racconto" 
+            class="char-num" 
+            ng-class='{
+              "nel-limite": isValid(), 
+              "fuori-limite": !isValid()
+            }'>
+              {{data.ilRacconto|numChar}}
+          </span>
+        </div>
 
-		<li ng-show="missingWords()" errore="parolaMancante" spiegazione-errore = "Una regola &grave; una regola &grave; una regola.">
-		  Manca la parola 
-		  <span class="regola parola-mancante">
-			{{errors.parolaMancante.word}}
-		  </span>
-		</li>
+        <div id="interpunzione">
+          Interpunzione:
+          <ul class="lista-errori">
+          
+            <li ng-show="invalidInterpunction()" errore="spaziaturaMancante" spiegazione-errore = "I segni di punteggiatura devono, sempre, essere seguiti da uno spazio.">
+              Manca uno spazio nei pressi di 
+                <span class = "ortografia spazio-mancante">
+                    {{errors.spaziaturaMancante.context}}
+                </span>
+            </li>
 
-	  </ul>
+            <li ng-show="invalidSpaces()" errore="spaziaturaTroppo" spiegazione-errore = "I segni di punteggiatura non devono essere preceduti da uno spazio.">
+                Spaziatura di troppo nei pressi di 
+                <span class = "ortografia spazio-eccessivo" >
+                    {{errors.spaziaturaTroppo.context}}
+                </span>
+            </li>
 
-    <span ng-show="spiegazioneErrore" class="tooltip" clicca-per-nascondere>{{spiegazioneErrore}}</span>
+            <li ng-show="doubleSpace()" errore="spaziaturaMultipla" spiegazione-errore = "Due spaziature consecutive sono quasi sempre un refuso.">
+                Spaziatura multipla nei pressi di 
+                <span class = "ortografia spazio-multiplo" >
+                    {{errors.spaziaturaMultipla.context}}
+                </span>
+            </li>
+
+            <li ng-show="spaceAfterApostrophe()" errore="spazioDopoApostrofo" spiegazione-errore = "L'apostrofo non deve essere seguito da uno spazio.">
+              Apostrofo seguito da spazio nei pressi di 
+                <span class = "ortografia apostrofo-spazio" >
+                    {{errors.spazioDopoApostrofo.context}}
+                </span>
+            </li>
+            
+            <li ng-show="badEllipsis()" errore="puntiniSospensivi" spiegazione-errore = "I puntini di sospensione devono essere tre. No, davvero...">
+              {{errors.puntiniSospensivi.num}} puntini di sospensione nei pressi di  
+              <span class="ortografia puntini-sbagliati">
+                {{errors.puntiniSospensivi.context}}
+              </span>
+            </li>
+
+            <li ng-show="missingWords()" errore="parolaMancante" spiegazione-errore = "Una regola &grave; una regola &grave; una regola.">
+              Manca la parola 
+              <span class="regola parola-mancante">
+                {{errors.parolaMancante.word}}
+              </span>
+            </li>
+
+          </ul>
+
+        <span ng-show="spiegazioneErrore" class="tooltip" clicca-per-nascondere>{{spiegazioneErrore}}</span>
+
+        </div>
 
     </div>
-</div>
-
-<div id="tastierino" class="narranti-box" ng-controller="TastieraController">
-
-    <div class="accento-grave">
-        <carattere lettera="&Agrave;"></carattere>
-        <carattere lettera="&Egrave;"></carattere>
-        <carattere lettera="&Igrave;"></carattere>
-        <carattere lettera="&Ograve;"></carattere>
-        <carattere lettera="&Ugrave;"></carattere>
-    </div>
-
-    <div class="accento-acuto">
-        <carattere lettera="&Aacute;"></carattere>
-        <carattere lettera="&Eacute;"></carattere>
-        <carattere lettera="&Iacute;"></carattere>
-        <carattere lettera="&Oacute;"></carattere>
-        <carattere lettera="&Uacute;"></carattere>
-    </div>
-
-    <div class="altro">
-        <carattere lettera="&uuml;"></carattere>
-        <carattere lettera="&Uuml;"></carattere>
-        <carattere lettera="&mdash;"></carattere>
-        <carattere lettera="&laquo;"></carattere>
-        <carattere lettera="&raquo;"></carattere>
-    </div>
-
-</div>
-
-<div id="jpeg-canvas" class="narranti-box narranti-container" ng-controller="CanvasController">
-    <div class="istruzioni">Clicca per aggiornare l'anteprima</div>
-    <canvas width="414px" height="709px" ng-click="redrawJpeg()" id="quattrocento-jpeg"></canvas>
-
+    
 </div>
