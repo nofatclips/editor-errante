@@ -191,7 +191,7 @@ function CanvasController($scope, Data) {
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
         context.textAlign = "left";
-        var lines = splitText($scope.data.ilRacconto);
+        var lines = splitTextWithLineFeed($scope.data.ilRacconto);
         lines.forEach(function(line, num) {
             posizioneUltimaRiga = 70 + num * interlinea;
             context.fillText(line.trim(), 10, posizioneUltimaRiga, 394);
@@ -311,6 +311,15 @@ var insertAtCursor = function (myValue) {
     } else {
         myField.value += myValue;
     }
+}
+
+var splitTextWithLineFeed = function(str) {
+    var paragrafi = str.split("\n");
+    var ret = [];
+    paragrafi.forEach(function(paragrafo) {
+        ret = ret.concat(splitText(paragrafo));
+    });
+    return ret;
 }
 
 var splitText = function(str) {    
