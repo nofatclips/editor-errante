@@ -5,8 +5,10 @@ var editorErrante = angular
 		$routeProvider.when("/", {
 			"templateUrl": "compose.html",
 			"controller": "ComposeController"
-		});
-		$routeProvider.otherwise({
+		}).when("/:p1/:p2/:date", {
+			"templateUrl": "compose.html",
+			"controller": "ComposeController"
+		}).otherwise({
 			"redirectTo": "/"
 		});
 	});
@@ -291,7 +293,11 @@ function ReportController($scope, $filter, Data) {
 
 }
 
-editorErrante.controller("ComposeController", function() {});
+editorErrante.controller("ComposeController", function($routeParams, Data) {
+    Data.parola1 = $routeParams.p1;
+    Data.parola2 = $routeParams.p2;
+    Data.laData = $routeParams.date;
+});
 
 var insertAtCursor = function (myValue) {
     var myField = document.getElementById("il-racconto");
