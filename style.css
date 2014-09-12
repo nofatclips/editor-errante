@@ -4,8 +4,8 @@ body {
 }
 
 .narranti-container {
-    font-family: Times New Roman, serif;
-    font-size: 1em;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .char-num {
@@ -38,7 +38,8 @@ textarea {
 .narranti-box {
     margin: 10px 0;
     padding: 20px;
-    display: inline-block;
+    font-family: Times New Roman, serif;
+    font-size: 1em;
     -webkit-border-radius: 20px 20px 20px 20px;
     -moz-border-radius: 20px 20px 20px 20px;
     border-radius: 20px 20px 20px 20px; 
@@ -56,13 +57,14 @@ textarea {
 #stats {
     background-color: #00EAFF;
     color: #555588;
-    vertical-align: top;
+    
 }
 
 #tastierino {
     background-color: #D0F;
     color: #885555;
     vertical-align: top;
+    width: 238px;
 }
 
 #tastierino button {
