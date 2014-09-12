@@ -18,6 +18,7 @@ editorErrante.factory("Data", function() {
     "ilTitolo": "",
     "parola1": "",
     "parola2": "",
+    "laFirma": "",
     "maxChar": 400
   };
 });
@@ -149,6 +150,57 @@ function TastieraController($scope, Data) {
     $scope.accentata = insertAtCursor;
 }
 
+function CanvasController($scope, Data) {
+
+    $scope.data = Data;
+    var canvas = document.getElementById('quattrocento-jpeg');
+    var context = canvas.getContext('2d');
+    
+    var clearCanvas = function() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    
+    var redrawTitle = function() {
+        context.font = 'bold 20pt Cambria';
+        context.fillStyle = 'white';
+        context.fillText($scope.data.ilTitolo.toUpperCase(), 20, 30, 374);
+    }
+    
+    var redrawText = function() {
+        context.font = '18pt Cambria';        
+        context.fillStyle = 'white';
+        var lines = splitText($scope.data.ilRacconto);
+        lines.forEach(function(line, num) {
+            context.fillText(line.trim(), 10, 70 + num*24, 394);
+        });
+    }
+    
+    var redrawName = function() {
+        context.font = 'italic 20pt Cambria';
+        context.fillStyle = 'white';
+        var nome = $scope.data.laFirma;
+        var misura = context.measureText(nome).width;
+        var posizione = Math.max (10, 400-misura);
+        context.fillText(nome, posizione, 480, 390);
+    }
+    
+    var redrawWords = function() {
+        context.font = 'bold 20pt Cambria';
+        context.fillStyle = 'white';
+        context.fillText(inizialeMaiuscola($scope.data.parola1), 20, 600, 150);
+        context.fillText(inizialeMaiuscola($scope.data.parola2), 254, 600, 150);
+    }
+    
+    $scope.redrawJpeg = function() {
+        clearCanvas();
+        redrawTitle();
+        redrawText();
+        redrawName();
+        redrawWords();
+    }
+
+}
+
 function ReportController($scope, $filter, Data) {
 
     $scope.data = Data;
@@ -214,4 +266,27 @@ var insertAtCursor = function (myValue) {
     } else {
         myField.value += myValue;
     }
+}
+
+var splitText = function(str) {    
+    var parole = str.split(" "),
+        numParole = parole.length,
+        ret = [],
+        lunghezzaRiga = 32,
+        riga = parole[0];
+    
+    for (var i=1; i<numParole; i++) {
+        if (parole[i].length + riga.length < lunghezzaRiga) {
+            riga+=" " + parole[i];
+        } else {
+            ret.push(riga);
+            riga = parole[i];
+        }
+    }
+    ret.push(riga);
+    return ret;
+}
+
+function inizialeMaiuscola(s) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
 }
