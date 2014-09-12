@@ -350,5 +350,6 @@ var splitText = function(str) {
 }
 
 function inizialeMaiuscola(s) {
-    return s?(s.charAt(0).toUpperCase() + s.slice(1)):"";
+    if (!s) return "";
+    return s.charAt(0).toUpperCase() + s.slice(1);
 }
