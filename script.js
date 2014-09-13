@@ -160,6 +160,7 @@ function TastieraController($scope, Data) {
 function CanvasController($scope, Data) {
 
     $scope.data = Data;
+    var picture = document.getElementById('immagine-da-salvare');
     var canvas = document.getElementById('quattrocento-jpeg');
     var context = canvas.getContext('2d');
     var center = {
@@ -237,6 +238,10 @@ function CanvasController($scope, Data) {
         context.fillText("Settimana " + $scope.data.laData, center.x, 570);
     }
     
+    var updateImage = function() {
+        picture.src = canvas.toDataURL("image/png");
+    }
+    
     $scope.redrawJpeg = function() {
         clearCanvas();
         redrawImage();
@@ -246,6 +251,7 @@ function CanvasController($scope, Data) {
         redrawWords();
         redrawNE();
         redrawSettimana();
+        updateImage();
     }
     
     var logoErranti = new Image();
