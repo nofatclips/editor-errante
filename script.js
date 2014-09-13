@@ -144,8 +144,11 @@ editorErrante.directive("cliccaPerNascondere", function() {
 });
 
 //Controller
-function EditorController($scope, Data) {
-  $scope.data = Data;
+function EditorController($scope, $location, Data) {
+    $scope.data = Data;
+    $scope.updateUrl = function() {
+        $location.path("/" + $scope.data.parola1 + "/" + $scope.data.parola2 + "/" + $scope.data.laData);
+    };
 }
 
 function TastieraController($scope, Data) {
