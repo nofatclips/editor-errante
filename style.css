@@ -149,8 +149,7 @@ textarea {
 }
 
 #quattrocento-jpeg {
-
-    background-color: #0f3460;
+    display: none;
 }
 
 .istruzioni {
