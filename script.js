@@ -147,7 +147,8 @@ editorErrante.directive("cliccaPerNascondere", function() {
 function EditorController($scope, $location, Data) {
     $scope.data = Data;
     $scope.updateUrl = function() {
-        $location.path("/" + $scope.data.parola1 + "/" + $scope.data.parola2 + "/" + $scope.data.laData);
+        if (!$scope.data.parola1 || !$scope.data.parola2) return;
+        $location.path("/" + $scope.data.parola1 + "/" + $scope.data.parola2 + "/" + ($scope.data.laData || ""));
     };
 }
 
