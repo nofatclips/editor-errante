@@ -258,6 +258,8 @@ function CanvasController($scope, Data) {
     logoErranti.src = "erranti_sml.jpg";
     logoErranti.onload = $scope.redrawJpeg;
     
+    //$scope.$watch(function() {return $scope.data}, $scope.redrawJpeg, true);
+
 }
 
 function ReportController($scope, $filter, Data) {
