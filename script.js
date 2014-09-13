@@ -150,7 +150,11 @@ function EditorController($scope, Data) {
 
 function TastieraController($scope, Data) {
     $scope.data = Data;
-    $scope.accentata = insertAtCursor;
+    $scope.accentata = function(lettera) {
+        $scope.$apply(function() {
+            $scope.data.ilRacconto = insertAtCursor(lettera);
+        });
+    }
 }
 
 function CanvasController($scope, Data) {
@@ -319,6 +323,8 @@ var insertAtCursor = function (myValue) {
     } else {
         myField.value += myValue;
     }
+    
+    return myField.value;
 }
 
 var splitTextWithLineFeed = function(str) {
