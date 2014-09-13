@@ -162,8 +162,6 @@ function CanvasController($scope, Data) {
     $scope.data = Data;
     var canvas = document.getElementById('quattrocento-jpeg');
     var context = canvas.getContext('2d');
-    var logoErranti = new Image();
-    logoErranti.src = "erranti_sml.jpg";
     var center = {
         x: 207,
         y: 625
@@ -249,8 +247,10 @@ function CanvasController($scope, Data) {
         redrawNE();
         redrawSettimana();
     }
-
-    $scope.redrawJpeg();
+    
+    var logoErranti = new Image();
+    logoErranti.src = "erranti_sml.jpg";
+    logoErranti.onload = $scope.redrawJpeg;
     
 }
 
