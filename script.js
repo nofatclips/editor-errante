@@ -147,8 +147,11 @@ editorErrante.directive("cliccaPerNascondere", function() {
 function EditorController($scope, $location, Data) {
     $scope.data = Data;
     $scope.updateUrl = function() {
-        if (!$scope.data.parola1 || !$scope.data.parola2) return;
-        $location.path("/" + $scope.data.parola1 + "/" + $scope.data.parola2 + "/" + ($scope.data.laData || ""));
+        var parola1 = $scope.data.parola1 || "";
+        var parola2 = $scope.data.parola2 || "";
+        var settima = $scope.data.laData || "";
+        var nuovaUrl = (parola1 || parola2 || settima) ? (parola1 + "/" + parola2 + "/" + settima) : "";
+        $location.path("/" + nuovaUrl);
     };
 }
 
