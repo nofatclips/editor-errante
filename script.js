@@ -144,14 +144,18 @@ editorErrante.directive("cliccaPerNascondere", function() {
 });
 
 //Controller
-function EditorController($scope, $location, Data) {
+function EditorController($scope, $location, $route, Data) {
     $scope.data = Data;
     $scope.updateUrl = function() {
         var parola1 = $scope.data.parola1 || "";
         var parola2 = $scope.data.parola2 || "";
         var settima = $scope.data.laData || "";
-        var nuovaUrl = (parola1 || parola2 || settima) ? (parola1 + "/" + parola2 + "/" + settima) : "";
-        $location.path("/" + nuovaUrl);
+        var nuovaUrl = "/" + ((parola1 || parola2 || settima) ? (parola1 + "/" + parola2 + "/" + settima) : "");
+        if (nuovaUrl === $location.path()) {
+            $route.reload();
+        } else {
+            $location.path(nuovaUrl);
+        }
     };
 }
 
