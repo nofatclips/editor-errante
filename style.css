@@ -123,6 +123,18 @@ textarea {
     width: 240px;
 }
 
+#scarica-zippato {
+    background-color: #F0D;
+    color: black;
+    vertical-align: top;
+    text-align: center;
+}
+
+#scarica-zippato a {
+    text-decoration: none;
+    color: black;
+}
+
 #tastierino button {
     font-family: Times New Roman, serif;
     font-size: 16px;
