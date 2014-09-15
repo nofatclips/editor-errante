@@ -144,19 +144,8 @@ editorErrante.directive("cliccaPerNascondere", function() {
 });
 
 //Controller
-function EditorController($scope, $location, $route, Data) {
+function EditorController($scope, Data) {
     $scope.data = Data;
-    $scope.updateUrl = function() {
-        var parola1 = $scope.data.parola1 || "";
-        var parola2 = $scope.data.parola2 || "";
-        var settima = $scope.data.laData || "";
-        var nuovaUrl = "/" + ((parola1 || parola2 || settima) ? (parola1 + "/" + parola2 + "/" + settima) : "");
-        if (nuovaUrl === $location.path()) {
-            $route.reload();
-        } else {
-            $location.path(nuovaUrl);
-        }
-    };
 }
 
 function TastieraController($scope, Data) {
@@ -168,7 +157,7 @@ function TastieraController($scope, Data) {
     }
 }
 
-function CanvasController($scope, Data) {
+function CanvasController($scope, $location, Data) {
 
     $scope.data = Data;
     var picture = document.getElementById('immagine-da-salvare');
@@ -184,6 +173,20 @@ function CanvasController($scope, Data) {
     };
     var posizioneUltimaRiga;
     var interlinea = 24;
+
+    $scope.updateUrl = function() {
+        var parola1 = $scope.data.parola1 || "";
+        var parola2 = $scope.data.parola2 || "";
+        var settima = $scope.data.laData || "";
+        var nuovaUrl = "/" + ((parola1 || parola2 || settima) ? (parola1 + "/" + parola2 + "/" + settima) : "");
+        if (nuovaUrl === $location.path()) {
+            console.log("uguale");
+            aggiorna();
+        } else {
+            console.log("diverso");
+            $location.path(nuovaUrl);
+        }
+    };
     
     var clearCanvas = function() {
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -256,7 +259,7 @@ function CanvasController($scope, Data) {
         link.download = ($scope.data.ilTitolo || "senzatitolo") + ".png";
     }
     
-    $scope.redrawJpeg = function() {
+    var aggiorna = function() {
         clearCanvas();
         redrawImage();
         redrawTitle();
@@ -268,9 +271,11 @@ function CanvasController($scope, Data) {
         updateImage();
     }
     
+    $scope.redrawJpeg = aggiorna;
+    
     var logoErranti = new Image();
     logoErranti.src = "erranti_sml.jpg";
-    logoErranti.onload = $scope.redrawJpeg;
+    logoErranti.onload = aggiorna;
     
     //$scope.$watch(function() {return $scope.data}, $scope.redrawJpeg, true);
 
