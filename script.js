@@ -363,7 +363,13 @@ var splitTextWithLineFeed = function(str) {
     return ret;
 }
 
-var splitText = function(str) {    
+function splitText (str, misura) {
+
+    var parolaEntraNellaRiga = function (riga, parola, lunghezzaRiga) {
+        return (parola.length + riga.length < lunghezzaRiga)
+    }
+    misura = misura || parolaEntraNellaRiga;
+    
     var parole = str.split(" "),
         numParole = parole.length,
         ret = [],
@@ -371,7 +377,7 @@ var splitText = function(str) {
         riga = parole[0];
     
     for (var i=1; i<numParole; i++) {
-        if (parole[i].length + riga.length < lunghezzaRiga) {
+        if (misura(riga, parole[i], lunghezzaRiga)) {
             riga+=" " + parole[i];
         } else {
             ret.push(riga);
