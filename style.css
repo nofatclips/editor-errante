@@ -116,6 +116,22 @@ textarea {
     max-width: 340px;
 }
 
+#pulsantiera {
+    position: relative;
+    height: 30px;
+    background-color: #88FF00;
+    color: #FF5555;
+}
+
+#pulsantiera a, #pulsantiera span {
+    color: #CC1111;
+    text-decoration: none;
+}
+
+#pulsantiera span:hover, #pulsantiera a:hover {
+    color: #EE3333;
+}
+
 #tastierino {
     background-color: #D0F;
     color: #885555;
@@ -173,4 +189,14 @@ textarea {
 
 .cliccabile {
     cursor: pointer;
+}
+
+.pulsante-sinistra {
+    position: absolute;
+    left: 20px;
+}
+
+.pulsante-destra {
+    position: absolute;
+    right: 20px;
 }

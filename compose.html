@@ -30,7 +30,6 @@
               placeholder="Numero - Anno"
               type="text" />
           </label>
-          <i ng-click="updateUrl()" title="Sostituisci le parole e la data nella URL" class="cliccabile fa fa-refresh fa-lg"></i>
         </div>
 
         <div id="riga-titolo">
@@ -42,7 +41,6 @@
               placeholder="Lunghezza a piacere"
               type="text" />
           </label>
-          <a id="link-salvataggio" title="Salva il rettangolo blu su disco" href="."><i class="fa fa-save fa-lg"></i></a>
         </div>
 
         <div id="riga-racconto">
@@ -81,10 +79,14 @@
 
 <div class="narranti-container">
 
-    <div id="jpeg-canvas" class="narranti-box narranti-container" ng-controller="CanvasController">
-        <div class="istruzioni">Clicca l'anteprima per aggiornarla</div>
+    <div id="pulsantiera" class="narranti-box" ng-controller="CanvasController">
+        <span ng-click="updateUrl()" class="cliccabile pulsante-sinistra"><i title="Aggiorna la URL e l'anteprima" class="fa fa-refresh fa-lg"></i> Aggiorna anteprima</span>
+        <span class="pulsante-destra"><a id="link-salvataggio" title="Salva il rettangolo blu su disco" href=".">Salva su disco <i class="fa fa-save fa-lg"></i></a></span>
+    </div>
+
+    <div id="jpeg-canvas" class="narranti-box">
         <canvas width="414px" height="709px" id="quattrocento-jpeg"></canvas>
-        <img width="414px" height="709px" ng-click="redrawJpeg()" id="immagine-da-salvare" />
+        <img width="414px" height="709px" id="immagine-da-salvare" />
     </div>
     
 </div>
