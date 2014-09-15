@@ -172,7 +172,7 @@ function CanvasController($scope, $location, Data) {
         y: 96
     };
     var posizioneUltimaRiga;
-    var interlinea = 24;
+    var interlinea = 26;
 
     $scope.updateUrl = function() {
         var parola1 = $scope.data.parola1 || "";
@@ -180,13 +180,15 @@ function CanvasController($scope, $location, Data) {
         var settima = $scope.data.laData || "";
         var nuovaUrl = "/" + ((parola1 || parola2 || settima) ? (parola1 + "/" + parola2 + "/" + settima) : "");
         if (nuovaUrl === $location.path()) {
-            console.log("uguale");
             aggiorna();
         } else {
-            console.log("diverso");
             $location.path(nuovaUrl);
         }
     };
+    
+    var parolaEntraNellaRiga = function (riga, parola) {
+        return (context.measureText(riga + " " + parola).width < 394);
+    }
     
     var clearCanvas = function() {
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -211,7 +213,7 @@ function CanvasController($scope, $location, Data) {
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
         context.textAlign = "left";
-        var lines = splitTextWithLineFeed($scope.data.ilRacconto);
+        var lines = splitTextWithLineFeed($scope.data.ilRacconto, parolaEntraNellaRiga);
         lines.forEach(function(line, num) {
             posizioneUltimaRiga = 70 + num * interlinea;
             context.fillText(line.trim(), 10, posizioneUltimaRiga, 394);
@@ -231,8 +233,9 @@ function CanvasController($scope, $location, Data) {
         context.font = 'bold 20pt Cambria';
         context.fillStyle = 'white';
         context.textBaseline = 'middle';
+        context.textAlign = "right";
+        context.fillText(inizialeMaiuscola($scope.data.parola1), 155, center.y, 150);
         context.textAlign = "left";
-        context.fillText(inizialeMaiuscola($scope.data.parola1), 5, center.y, 150);
         context.fillText(inizialeMaiuscola($scope.data.parola2), 254, center.y, 150);
     }
     
@@ -354,11 +357,11 @@ var insertAtCursor = function (myValue) {
     return myField.value;
 }
 
-var splitTextWithLineFeed = function(str) {
+var splitTextWithLineFeed = function(str, misura) {
     var paragrafi = str.split("\n");
     var ret = [];
     paragrafi.forEach(function(paragrafo) {
-        ret = ret.concat(splitText(paragrafo));
+        ret = ret.concat(splitText(paragrafo, misura));
     });
     return ret;
 }
