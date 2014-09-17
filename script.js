@@ -22,7 +22,9 @@ editorErrante.factory("Data", function() {
     "parola2": "",
     "laFirma": "",
     "laData": "",
-    "maxChar": 400
+    "maxChar": 400,
+    "campoSelezionato": "il-racconto",
+    "selezione": "ilRacconto"
   };
 });
 
@@ -144,21 +146,24 @@ editorErrante.directive("cliccaPerNascondere", function() {
 });
 
 //Controller
-function EditorController($scope, Data) {
+function EditorController($scope, $element, Data) {
     $scope.data = Data;
+    $element[0].addEventListener("focus", function(evt){
+        Data.campoSelezionato = evt.target.id;
+        Data.selezione = evt.target.attributes["ng-model"].value.substring(5); //substring elimina "data." dalla stringa
+    }, true);
 }
 
 function TastieraController($scope, Data) {
     $scope.data = Data;
     $scope.accentata = function(lettera) {
         $scope.$apply(function() {
-            $scope.data.ilRacconto = insertAtCursor(lettera);
+            $scope.data[$scope.data.selezione] = insertAtCursor(lettera, $scope.data.campoSelezionato);
         });
     }
 }
 
 function CanvasController($scope, $location, Data) {
-
     $scope.data = Data;
     var picture = document.getElementById('immagine-da-salvare');
     var link = document.getElementById('link-salvataggio');
@@ -335,8 +340,9 @@ editorErrante.controller("ComposeController", function($routeParams, Data) {
     Data.laData = $routeParams.date;
 });
 
-var insertAtCursor = function (myValue) {
-    var myField = document.getElementById("il-racconto");
+var insertAtCursor = function (myValue, textField) {
+    if (!textField) return;
+    var myField = document.getElementById(textField);
     
     //Source: http://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
     if (document.selection) { //IE support
