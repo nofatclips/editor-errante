@@ -1,6 +1,31 @@
 <div class="narranti-container">
 
     <div id="opzioni-impaginazione" class="narranti-box">
+    
+        <form>
+            <fieldset class="allineamento">
+                <legend>Allineamento del titolo</legend>
+                <label for="titolo-left"><input type="radio" ng-model="settings.allineaTitolo" name="titolo" id="titolo-left" value="left" /> <i class="fa fa-align-left fa-lg"></i> Sinistra</label>
+                <label for="titolo-middle"><input type="radio" ng-model="settings.allineaTitolo" name="titolo" id="titolo-middle" value="middle" /><i class="fa fa-align-center fa-lg"></i> Centro</label>
+                <label for="titolo-right"><input type="radio" ng-model="settings.allineaTitolo" name="titolo" id="titolo-right" value="right" /><i class="fa fa-align-right fa-lg"></i> Destra</label>
+            </fieldset>
+            <fieldset class="allineamento">
+                <legend>Allineamento del racconto</legend>
+                <label for="testo-left"><input type="radio" ng-model="settings.allineaRacconto" name="testo" id="testo-left" value="left" /><i class="fa fa-align-left fa-lg"></i> Sinistra</label>
+                <label for="testo-middle"><input type="radio" ng-model="settings.allineaRacconto" name="testo" id="testo-middle" value="middle" /><i class="fa fa-align-center fa-lg"></i> Centro</label>
+                <label for="testo-right"><input type="radio" ng-model="settings.allineaRacconto" name="testo" id="testo-right" value="right" /><i class="fa fa-align-right fa-lg"></i> Destra</label>
+            </fieldset>
+            <fieldset class="allineamento">
+                <legend>Allineamento della firma</legend>
+                <label for="firma-left"><input type="radio" ng-model="settings.allineaFirma" name="firma" id="firma-left" value="left" /><i class="fa fa-align-left fa-lg"></i> Sinistra</label>
+                <label for="firma-middle"><input type="radio" ng-model="settings.allineaFirma" name="firma" id="firma-middle" value="middle" /><i class="fa fa-align-center fa-lg"></i> Centro</label>
+                <label for="firma-right"><input type="radio" ng-model="settings.allineaFirma" name="firma" id="firma-right" value="right" /><i class="fa fa-align-right fa-lg"></i> Destra</label>
+            </fieldset>
+        </form>
+    
+    </div>
+    
+    <div id="opzioni-back" class="narranti-box">
         <div class="back-link">
             <a href="/" ng-click="updateUrl()"><i class="fa fa-edit fa-lg"></i> Torna alla scrittura</a>
         </div>
