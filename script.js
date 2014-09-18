@@ -32,6 +32,14 @@ editorErrante.factory("Data", function() {
   };
 });
 
+editorErrante.factory("Settings", function() {
+  return {
+    "allineaTitolo": "middle",
+    "allineaRacconto": "left",
+    "allineaFirma": "right"
+  };
+});
+
 editorErrante.filter("numChar", function() {
 	return function(theText) {
 		return theText
@@ -338,9 +346,10 @@ function ReportController($scope, $filter, Data) {
 
 }
 
-function OpzioniController($scope, $location, Data) {
+function OpzioniController($scope, $location, Data, Settings) {
 
     $scope.data = Data;
+    $scope.settings = Settings;
 
     $scope.updateUrl = function() {
         var parola1 = $scope.data.parola1 || "";

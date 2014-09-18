@@ -146,19 +146,19 @@ textarea {
     width: 240px;
 }
 
-#scarica-zippato {
+#scarica-zippato, #opzioni-back {
     background-color: #F0D;
     color: black;
     vertical-align: top;
     text-align: center;
 }
 
-#scarica-zippato a {
+#scarica-zippato a, #opzioni-back a {
     text-decoration: none;
     color: black;
 }
 
-#scarica-zippato a:hover {
+#scarica-zippato a:hover, #opzioni-back a:hover {
     color: white;
 }
 
@@ -215,4 +215,13 @@ textarea {
 .pulsante-destra {
     position: absolute;
     right: 20px;
+}
+
+#opzioni-impaginazione .allineamento {
+    display: inline;
+}
+
+#opzioni-impaginazione .allineamento label {
+    display: block;
+    padding: 4px;
 }
