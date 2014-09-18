@@ -80,8 +80,14 @@
 <div class="narranti-container">
 
     <div id="pulsantiera" class="narranti-box" ng-controller="CanvasController">
-        <span ng-click="updateUrl()" class="cliccabile pulsante-sinistra"><i title="Aggiorna la URL e l'anteprima" class="fa fa-refresh fa-lg"></i> Aggiorna anteprima</span>
-        <span class="pulsante-destra"><a id="link-salvataggio" title="Salva il rettangolo blu su disco" href=".">Salva su disco <i class="fa fa-save fa-lg"></i></a></span>
+        <div class="contenitore-pulsanti">
+            <span ng-click="updateUrl()" class="cliccabile pulsante-sinistra"><i title="Aggiorna la URL e l'anteprima" class="fa fa-refresh fa-lg"></i> Aggiorna anteprima</span>
+            <span class="pulsante-destra"><a id="link-salvataggio" title="Salva il rettangolo blu su disco" href=".">Salva su disco <i class="fa fa-save fa-lg"></i></a></span>
+        </div>
+        <div class="contenitore-pulsanti seconda-riga-pulsanti">
+            <span class="pulsante-sinistra"><a id="link-opzioni" href="#/opzioni"><i class="fa fa-cog fa-lg"></i> Opzioni</a></span>
+            <!--<span class="pulsante-destra"><a id="link-salvataggio" title="Salva il rettangolo blu su disco" href=".">Salva su disco <i class="fa fa-cog fa-lg"></i></a></span> -->
+        </div>
     </div>
 
     <div id="jpeg-canvas" class="narranti-box">

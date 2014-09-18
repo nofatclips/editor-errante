@@ -5,7 +5,10 @@ var editorErrante = angular
 		$routeProvider.when("/", {
 			"templateUrl": "compose.html",
 			"controller": "ComposeController"
-		}).when("/:p1?/:p2?/:date?", {
+		}).when("/opzioni", {
+            "templateUrl": "opzioni.html",
+            "controller": "OpzioniController"
+        }).when("/:p1?/:p2?/:date?", {
 			"templateUrl": "compose.html",
 			"controller": "ComposeController"
 		}).otherwise({
@@ -330,6 +333,24 @@ function ReportController($scope, $filter, Data) {
         var context = parola($scope.data.parola1, testo) || parola($scope.data.parola2, testo)
         $scope.errors.parolaMancante = createContext(context);
         return context!=="";
+    };
+
+}
+
+function OpzioniController($scope, $location, Data) {
+
+    $scope.data = Data;
+
+    $scope.updateUrl = function() {
+        var parola1 = $scope.data.parola1 || "";
+        var parola2 = $scope.data.parola2 || "";
+        var settima = $scope.data.laData || "";
+        var nuovaUrl = "/" + ((parola1 || parola2 || settima) ? (parola1 + "/" + parola2 + "/" + settima) : "");
+        if (nuovaUrl === $location.path()) {
+            aggiorna();
+        } else {
+            $location.path(nuovaUrl);
+        }
     };
 
 }

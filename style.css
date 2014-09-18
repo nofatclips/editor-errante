@@ -117,10 +117,17 @@ textarea {
 }
 
 #pulsantiera {
-    position: relative;
-    height: 30px;
+    height: 60px;
     background-color: #88FF00;
     color: #FF5555;
+}
+
+.contenitore-pulsanti {
+    position: relative;
+}
+
+.seconda-riga-pulsanti {
+    top: 40px;
 }
 
 #pulsantiera a, #pulsantiera span {
@@ -149,6 +156,10 @@ textarea {
 #scarica-zippato a {
     text-decoration: none;
     color: black;
+}
+
+#scarica-zippato a:hover {
+    color: white;
 }
 
 #tastierino button {
