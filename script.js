@@ -1,3 +1,4 @@
+"use strict"
 //Application
 var editorErrante = angular
 	.module("EditorErrante", ["ngRoute"])
