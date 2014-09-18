@@ -34,7 +34,7 @@ editorErrante.factory("Data", function() {
 
 editorErrante.factory("Settings", function() {
   return {
-    "allineaTitolo": "middle",
+    "allineaTitolo": "left",
     "allineaRacconto": "left",
     "allineaFirma": "right"
   };
@@ -175,7 +175,7 @@ function TastieraController($scope, Data) {
     }
 }
 
-function CanvasController($scope, $location, Data) {
+function CanvasController($scope, $location, Data, Settings) {
     $scope.data = Data;
     var picture = document.getElementById('immagine-da-salvare');
     var link = document.getElementById('link-salvataggio');
@@ -217,23 +217,34 @@ function CanvasController($scope, $location, Data) {
         context.drawImage(logoErranti, center.x-(size.x/2), center.y-(size.y/2), size.x, size.y);
     }
     
+    var allineaTesto = function(testo, allineamento, x, y, size) {
+        if (allineamento === "left") {
+            context.textAlign = "left";
+            context.fillText(testo, x, y, size);
+        } else if (allineamento === "right") {
+            context.textAlign = "right";
+            context.fillText(testo, x+size, y, size);
+        } else if (allineamento === "middle") {
+            context.textAlign = "center";
+            context.fillText(testo, x+size/2, y, size);
+        }
+    }
+    
     var redrawTitle = function() {
         context.font = 'bold 20pt Cambria';
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
-        context.textAlign = "left";
-        context.fillText($scope.data.ilTitolo.toUpperCase(), 20, 30, 374);
+        allineaTesto (Data.ilTitolo.toUpperCase(), Settings.allineaTitolo, 20, 30, 374);
     }
     
     var redrawText = function() {
         context.font = '18pt Cambria';        
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
-        context.textAlign = "left";
-        var lines = splitTextWithLineFeed($scope.data.ilRacconto, parolaEntraNellaRiga);
+        var lines = splitTextWithLineFeed(Data.ilRacconto, parolaEntraNellaRiga);
         lines.forEach(function(line, num) {
             posizioneUltimaRiga = 70 + num * interlinea;
-            context.fillText(line.trim(), 10, posizioneUltimaRiga, 394);
+            allineaTesto(line.trim(), Settings.allineaRacconto, 10, posizioneUltimaRiga, 394);
         });
     }
     
@@ -241,9 +252,8 @@ function CanvasController($scope, $location, Data) {
         context.font = 'italic 20pt Cambria';
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
-        context.textAlign = "right";
         var posizioneFirma = Math.min(posizioneUltimaRiga + interlinea * 2, 540);
-        context.fillText($scope.data.laFirma, 404, posizioneFirma, 390);
+        allineaTesto(Data.laFirma, Settings.allineaFirma, 14, posizioneFirma, 390);
     }
     
     var redrawWords = function() {
