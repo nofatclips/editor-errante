@@ -1,7 +1,7 @@
 "use strict"
 //Application
 var editorErrante = angular
-	.module("EditorErrante", ["ngRoute"])
+	.module("EditorErrante", ["ngRoute", "LocalStorageModule"])
 	.config(function($routeProvider) {
 		$routeProvider.when("/", {
 			"templateUrl": "compose.html",
@@ -32,13 +32,13 @@ editorErrante.factory("Data", function() {
   };
 });
 
-editorErrante.factory("Settings", function() {
+editorErrante.factory("Settings", ["localStorageService", function(localStorageService) {
   return {
-    "allineaTitolo": "left",
-    "allineaRacconto": "left",
-    "allineaFirma": "right"
+    "allineaTitolo": localStorageService.get("allineaTitolo") || "left",
+    "allineaRacconto": localStorageService.get("allineaRacconto") || "left",
+    "allineaFirma": localStorageService.get("allineaFirma") || "right"
   };
-});
+}]);
 
 editorErrante.filter("numChar", function() {
 	return function(theText) {
@@ -356,12 +356,12 @@ function ReportController($scope, $filter, Data) {
 
 }
 
-function OpzioniController($scope, $location, Data, Settings) {
+function OpzioniController($scope, $location, localStorageService, Data, Settings) {
 
     $scope.data = Data;
     $scope.settings = Settings;
 
-    $scope.updateUrl = function() {
+    var updateUrl = function() {
         var parola1 = $scope.data.parola1 || "";
         var parola2 = $scope.data.parola2 || "";
         var settima = $scope.data.laData || "";
@@ -372,6 +372,13 @@ function OpzioniController($scope, $location, Data, Settings) {
             $location.path(nuovaUrl);
         }
     };
+    
+    $scope.salva = function() {
+        localStorageService.set("allineaTitolo", Settings.allineaTitolo);
+        localStorageService.set("allineaRacconto", Settings.allineaRacconto);
+        localStorageService.set("allineaFirma", Settings.allineaFirma);
+        updateUrl();
+    }
 
 }
 
