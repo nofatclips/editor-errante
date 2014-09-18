@@ -5,7 +5,7 @@ var editorErrante = angular
 		$routeProvider.when("/", {
 			"templateUrl": "compose.html",
 			"controller": "ComposeController"
-		}).when("/:p1/:p2/:date", {
+		}).when("/:p1?/:p2?/:date?", {
 			"templateUrl": "compose.html",
 			"controller": "ComposeController"
 		}).otherwise({
