@@ -1,6 +1,6 @@
 //Application
 var editorErrante = angular
-	.module("EditorErrante", [])
+	.module("EditorErrante", ["ngRoute"])
 	.config(function($routeProvider) {
 		$routeProvider.when("/", {
 			"templateUrl": "compose.html",
