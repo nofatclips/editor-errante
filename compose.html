@@ -82,7 +82,7 @@
     <div id="pulsantiera" class="narranti-box" ng-controller="CanvasController">
         <div class="contenitore-pulsanti">
             <span ng-click="updateUrl()" class="cliccabile pulsante-sinistra"><i title="Aggiorna la URL e l'anteprima" class="fa fa-refresh fa-lg"></i> Aggiorna anteprima</span>
-            <span class="pulsante-destra"><a id="link-salvataggio" title="Salva il rettangolo blu su disco" href=".">Salva su disco <i class="fa fa-save fa-lg"></i></a></span>
+            <span class="pulsante-destra"><a id="link-salvataggio" title="Salva il rettangolo blu su disco" href=".">Scarica immagine <i class="fa fa-download fa-lg"></i></a></span>
         </div>
         <div class="contenitore-pulsanti seconda-riga-pulsanti">
             <span class="pulsante-sinistra"><a id="link-opzioni" href="#/opzioni"><i class="fa fa-cog fa-lg"></i> Opzioni</a></span>
@@ -91,8 +91,8 @@
     </div>
 
     <div id="jpeg-canvas" class="narranti-box">
-        <canvas width="414px" height="709px" id="quattrocento-jpeg"></canvas>
-        <img width="414px" height="709px" id="immagine-da-salvare" />
+        <canvas width="414px" height="709px" class="immagine-narranti" id="quattrocento-jpeg"></canvas>
+        <img width="414px" height="709px" id="immagine-da-salvare" class="immagine-narranti" />
     </div>
     
 </div>
