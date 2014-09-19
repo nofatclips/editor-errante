@@ -215,12 +215,12 @@ textarea {
 
 .pulsante-sinistra {
     position: absolute;
-    left: 20px;
+    left: 10px;
 }
 
 .pulsante-destra {
     position: absolute;
-    right: 20px;
+    right: 10px;
 }
 
 #opzioni-impaginazione .allineamento {
