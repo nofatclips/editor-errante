@@ -156,6 +156,7 @@ textarea {
 #scarica-zippato a, #opzioni-back a {
     text-decoration: none;
     color: black;
+    cursor: pointer;
 }
 
 #scarica-zippato a:hover, #opzioni-back a:hover {

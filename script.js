@@ -361,11 +361,15 @@ function OpzioniController($scope, $location, localStorageService, Data, Setting
     $scope.data = Data;
     $scope.settings = Settings;
 
-    var updateUrl = function() {
+    var theUrl = function() {
         var parola1 = $scope.data.parola1 || "";
         var parola2 = $scope.data.parola2 || "";
         var settima = $scope.data.laData || "";
-        var nuovaUrl = "/" + ((parola1 || parola2 || settima) ? (parola1 + "/" + parola2 + "/" + settima) : "");
+        return "/" + ((parola1 || parola2 || settima) ? (parola1 + "/" + parola2 + "/" + settima) : "");
+    }
+    
+    var updateUrl = function() {
+        var nuovaUrl = theUrl();
         if (nuovaUrl === $location.path()) {
             aggiorna();
         } else {
