@@ -303,6 +303,10 @@ function CanvasController($scope, $location, Data, Settings) {
     
     $scope.redrawJpeg = aggiorna;
     
+    $scope.vaiOpzioni = function() {
+        $location.path("/opzioni");
+    }
+    
     var logoErranti = new Image();
     logoErranti.src = "erranti_sml.jpg";
     logoErranti.onload = aggiorna;
