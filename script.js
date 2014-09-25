@@ -199,6 +199,10 @@ function CanvasController($scope, $location, Data, Settings) {
     };
     var posizioneUltimaRiga;
     var interlinea = 26;
+    var split = editorErrante.neSplit;
+    split.setMaxFontSize(18);
+    split.setHeight(442);
+    split.setContext(context);
 
     $scope.updateUrl = function() {
         var parola1 = $scope.data.parola1 || "";
@@ -211,14 +215,6 @@ function CanvasController($scope, $location, Data, Settings) {
             $location.path(nuovaUrl);
         }
     };
-    
-    var parolaEntraNellaRiga = function (riga, parola, dontuse, fontSize) {
-        fontSize = fontSize || 18;
-        context.font = 'normal ' + fontSize + 'pt Cambria';        
-        context.fillStyle = 'white';
-        context.textBaseline = 'alphabetic';
-        return (context.measureText(riga + " " + parola).width < 394);
-    }
     
     var clearCanvas = function() {
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -254,9 +250,13 @@ function CanvasController($scope, $location, Data, Settings) {
         context.font = 'normal 18pt Cambria';        
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
-        var lines = editorErrante.neSplit.split(Data.ilRacconto, parolaEntraNellaRiga, 17);
+        split.setText(Data.ilRacconto);
+        split.process();
+        var lines = split.getLines();
+        var h = split.getLineHeight();
+        context.font = 'normal ' + split.getFontSize() + 'pt Cambria';
         lines.forEach(function(line, num) {
-            posizioneUltimaRiga = 70 + num * interlinea;
+            posizioneUltimaRiga = 70 + num * h;
             allineaTesto(line.trim(), Settings.allineaRacconto, 10, posizioneUltimaRiga, 394);
         });
     }
@@ -265,7 +265,7 @@ function CanvasController($scope, $location, Data, Settings) {
         context.font = 'italic 20pt Cambria';
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
-        var posizioneFirma = Math.min(posizioneUltimaRiga + interlinea * 2, 540);
+        var posizioneFirma = Math.min(posizioneUltimaRiga + split.getLineHeight() + 20, 540);
         allineaTesto(Data.laFirma, Settings.allineaFirma, 14, posizioneFirma, 390);
     }
     
