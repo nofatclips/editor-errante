@@ -1,6 +1,6 @@
 "use strict"
-
-editorErrante.neSplit = function() {
+// Splitter Module
+editorErrante.factory("neSplitter", function() {
 
     var parolaEntraNellaRigaSimple = function (riga, parola, lunghezzaRiga) {
         return (parola.length + riga.length < lunghezzaRiga)
@@ -10,7 +10,7 @@ editorErrante.neSplit = function() {
         context.font = 'normal ' + fontSize + 'pt Cambria';        
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
-        return (context.measureText(riga + " " + parola).width < 394);
+        return (context.measureText(riga + " " + parola).width < width);
     }
     
     var parolaEntraNellaRiga = function(riga, parole, lunghezzaRiga) {
@@ -26,6 +26,7 @@ editorErrante.neSplit = function() {
         context = null,
         misura = parolaEntraNellaRiga,
         interlinea = 1.2,
+        width = 394,
         height = 100;
     
     var setTextToSplit = function(text) {
@@ -64,6 +65,10 @@ editorErrante.neSplit = function() {
     
     var getNumeroRigheMax = function() {
         return Math.floor(height/getLineHeight());
+    }
+    
+    var setLarghezzaPagina = function(l) {
+        width = l;
     }
 
     var splitTextInMaxRighe = function() {
@@ -115,7 +120,8 @@ editorErrante.neSplit = function() {
         "getLines": getSplittedLines,
         "getLineHeight": getLineHeight,
         "setHeight": setNumeroPixel,
+        "setWidth": setLarghezzaPagina,
         "setLeading": setLineHeightRatio
     }
     
-}();
+});
