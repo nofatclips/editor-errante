@@ -185,7 +185,7 @@ function TastieraController($scope, Data) {
     }
 }
 
-function CanvasController($scope, $location, Data, Settings) {
+editorErrante.controller("CanvasController", ["$scope", "$location", "Data", "Settings", "neSplitter", function ($scope, $location, Data, Settings, split) {
     $scope.data = Data;
     var picture = document.getElementById('immagine-da-salvare');
     var link = document.getElementById('link-salvataggio');
@@ -199,7 +199,7 @@ function CanvasController($scope, $location, Data, Settings) {
         y: 96
     };
     var posizioneUltimaRiga;
-    var split = editorErrante.neSplit;
+    //var split = editorErrante.neSplit;
     split.setMaxFontSize(18);
     split.setHeight(442);
     split.setContext(context);
@@ -327,7 +327,7 @@ function CanvasController($scope, $location, Data, Settings) {
     
     //$scope.$watch(function() {return $scope.data}, $scope.redrawJpeg, true);
 
-}
+}]);
 
 function ReportController($scope, $filter, Data) {
 
