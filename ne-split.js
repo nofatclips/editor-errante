@@ -25,6 +25,7 @@ editorErrante.neSplit = function() {
         lines = [""],
         context = null,
         misura = parolaEntraNellaRiga,
+        interlinea = 1.2,
         height = 100;
     
     var setTextToSplit = function(text) {
@@ -41,6 +42,10 @@ editorErrante.neSplit = function() {
         context = ctx;
     }
     
+    var setLineHeightRatio = function(lineHeight) {
+        interlinea = lineHeight;
+    }
+    
     var getCurrentFontSize = function() {
         return fontSize;
     }
@@ -50,7 +55,7 @@ editorErrante.neSplit = function() {
     }
     
     var getLineHeight = function() {
-        return Math.ceil(fontSize * 1.2);
+        return Math.ceil(fontSize * interlinea);
     }
     
     var setNumeroPixel = function(h) {
@@ -109,7 +114,8 @@ editorErrante.neSplit = function() {
         "getFontSize": getCurrentFontSize,
         "getLines": getSplittedLines,
         "getLineHeight": getLineHeight,
-        "setHeight": setNumeroPixel
+        "setHeight": setNumeroPixel,
+        "setLeading": setLineHeightRatio
     }
     
 }();

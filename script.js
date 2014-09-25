@@ -46,6 +46,7 @@ editorErrante.factory("Settings", ["localStorageService", function(localStorageS
     "allineaRacconto": localStorageService.get("allineaRacconto") || "left",
     "allineaFirma": localStorageService.get("allineaFirma") || "right",
     "salvaInUscita": localStorageService.get("salvaInUscita") || "yes",
+    "interlinea": localStorageService.get("interlinea") || 1.25
   };
 }]);
 
@@ -198,11 +199,11 @@ function CanvasController($scope, $location, Data, Settings) {
         y: 96
     };
     var posizioneUltimaRiga;
-    var interlinea = 26;
     var split = editorErrante.neSplit;
     split.setMaxFontSize(18);
     split.setHeight(442);
     split.setContext(context);
+    split.setLeading(Settings.interlinea);
 
     $scope.updateUrl = function() {
         var parola1 = $scope.data.parola1 || "";
@@ -398,6 +399,7 @@ function OpzioniController($scope, $location, localStorageService, Data, Setting
         localStorageService.set("allineaTitolo", Settings.allineaTitolo);
         localStorageService.set("allineaRacconto", Settings.allineaRacconto);
         localStorageService.set("allineaFirma", Settings.allineaFirma);
+        localStorageService.set("interlinea", Settings.interlinea);
         updateUrl();
     }
 
