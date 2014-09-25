@@ -212,7 +212,11 @@ function CanvasController($scope, $location, Data, Settings) {
         }
     };
     
-    var parolaEntraNellaRiga = function (riga, parola) {
+    var parolaEntraNellaRiga = function (riga, parola, dontuse, fontSize) {
+        fontSize = fontSize || 18;
+        context.font = 'normal ' + fontSize + 'pt Cambria';        
+        context.fillStyle = 'white';
+        context.textBaseline = 'alphabetic';
         return (context.measureText(riga + " " + parola).width < 394);
     }
     
@@ -247,10 +251,10 @@ function CanvasController($scope, $location, Data, Settings) {
     }
     
     var redrawText = function() {
-        context.font = '18pt Cambria';        
+        context.font = 'normal 18pt Cambria';        
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
-        var lines = splitTextWithLineFeed(Data.ilRacconto, parolaEntraNellaRiga);
+        var lines = editorErrante.neSplit.split(Data.ilRacconto, parolaEntraNellaRiga, 17);
         lines.forEach(function(line, num) {
             posizioneUltimaRiga = 70 + num * interlinea;
             allineaTesto(line.trim(), Settings.allineaRacconto, 10, posizioneUltimaRiga, 394);
@@ -276,7 +280,7 @@ function CanvasController($scope, $location, Data, Settings) {
     }
     
     var redrawNE = function() {
-        context.font = '18pt Cambria';
+        context.font = 'normal 18pt Cambria';
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
         context.textAlign = "center";
@@ -285,7 +289,7 @@ function CanvasController($scope, $location, Data, Settings) {
     
     var redrawSettimana = function() {
         if (!$scope.data.laData) return;
-        context.font = '20pt Cambria';
+        context.font = 'normal 20pt Cambria';
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
         context.textAlign = "center";
@@ -426,40 +430,6 @@ var insertAtCursor = function (myValue, textField) {
     }
     
     return myField.value;
-}
-
-var splitTextWithLineFeed = function(str, misura) {
-    var paragrafi = str.split("\n");
-    var ret = [];
-    paragrafi.forEach(function(paragrafo) {
-        ret = ret.concat(splitText(paragrafo, misura));
-    });
-    return ret;
-}
-
-function splitText (str, misura) {
-
-    var parolaEntraNellaRiga = function (riga, parola, lunghezzaRiga) {
-        return (parola.length + riga.length < lunghezzaRiga)
-    }
-    misura = misura || parolaEntraNellaRiga;
-    
-    var parole = str.split(" "),
-        numParole = parole.length,
-        ret = [],
-        lunghezzaRiga = 32,
-        riga = parole[0];
-    
-    for (var i=1; i<numParole; i++) {
-        if (misura(riga, parole[i], lunghezzaRiga)) {
-            riga+=" " + parole[i];
-        } else {
-            ret.push(riga);
-            riga = parole[i];
-        }
-    }
-    ret.push(riga);
-    return ret;
 }
 
 function inizialeMaiuscola(s) {
