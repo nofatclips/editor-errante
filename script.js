@@ -1,7 +1,7 @@
 "use strict"
 //Application
 var editorErrante = angular
-	.module("EditorErrante", ["ngRoute", "LocalStorageModule"])
+	.module("EditorErrante", ["ngRoute", "LocalStorageModule", "neTextSplitter"])
 	.config(function($routeProvider) {
 		$routeProvider.when("/", {
 			"templateUrl": "compose.html",
@@ -199,7 +199,6 @@ editorErrante.controller("CanvasController", ["$scope", "$location", "Data", "Se
         y: 96
     };
     var posizioneUltimaRiga;
-    //var split = editorErrante.neSplit;
     split.setMaxFontSize(18);
     split.setHeight(442);
     split.setContext(context);

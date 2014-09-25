@@ -1,6 +1,6 @@
 "use strict"
 // Splitter Module
-editorErrante.factory("neSplitter", function() {
+angular.module("neTextSplitter", []).factory("neSplitter", function() {
 
     var parolaEntraNellaRigaSimple = function (riga, parola, lunghezzaRiga) {
         return (parola.length + riga.length < lunghezzaRiga)
