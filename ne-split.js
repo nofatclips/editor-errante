@@ -1,35 +1,89 @@
+"use strict"
+
 editorErrante.neSplit = function() {
 
-    var splitTextInMaxRighe = function(str, misura, maxRighe, maxFontSize) {
-        maxRighe = maxRighe || 100;
-        var fontSize = (maxFontSize || 18) + 1;
-        var ret;
-        do {
-            fontSize--;
-            ret = splitTextWithLineFeed(str, misura, fontSize);
-        } while (ret.length > maxRighe && fontSize>0);
-        return ret;
+    var parolaEntraNellaRigaSimple = function (riga, parola, lunghezzaRiga) {
+        return (parola.length + riga.length < lunghezzaRiga)
     }
 
-    var splitTextWithLineFeed = function(str, misura, fontSize) {
-        fontSize = fontSize || 18;
+    var parolaEntraNellaRigaConContesto = function (riga, parola) {
+        context.font = 'normal ' + fontSize + 'pt Cambria';        
+        context.fillStyle = 'white';
+        context.textBaseline = 'alphabetic';
+        return (context.measureText(riga + " " + parola).width < 394);
+    }
+    
+    var parolaEntraNellaRiga = function(riga, parole, lunghezzaRiga) {
+        return (context)
+            ?parolaEntraNellaRigaConContesto(riga, parole, lunghezzaRiga)
+            :parolaEntraNellaRigaSimple(riga, parole, lunghezzaRiga);
+    }
+
+    var str = "",
+        fontSize = 100,
+        maxFontSize = 100,
+        lines = [""],
+        context = null,
+        misura = parolaEntraNellaRiga,
+        height = 100;
+    
+    var setTextToSplit = function(text) {
+        str = text;
+        fontSize = maxFontSize;
+        lines = [""];
+    }
+    
+    var setMaxFontSize = function(size) {
+        maxFontSize = size;
+    }
+    
+    var setContext = function(ctx) {
+        context = ctx;
+    }
+    
+    var getCurrentFontSize = function() {
+        return fontSize;
+    }
+    
+    var getSplittedLines = function() {
+        return lines;
+    }
+    
+    var getLineHeight = function() {
+        return Math.ceil(fontSize * 1.2);
+    }
+    
+    var setNumeroPixel = function(h) {
+        height = h;
+    }
+    
+    var getNumeroRigheMax = function() {
+        return Math.floor(height/getLineHeight());
+    }
+
+    var splitTextInMaxRighe = function() {
+        var maxRighe = getNumeroRigheMax();
+        var ret = splitTextWithLineFeed(str, fontSize);
+        while (ret.length > maxRighe && fontSize > 0) {
+            fontSize--;
+            maxRighe = getNumeroRigheMax();
+            ret = splitTextWithLineFeed();
+        }
+        lines = ret;
+    }
+
+    var splitTextWithLineFeed = function() {
         var paragrafi = str.split("\n");
         var ret = [];
         paragrafi.forEach(function(paragrafo) {
-            ret = ret.concat(splitText(paragrafo, misura, fontSize));
+            ret = ret.concat(splitText(paragrafo, fontSize));
         });
         return ret;
     }
 
-    function splitText (str, misura, fontSize) {
-
-        var parolaEntraNellaRiga = function (riga, parola, lunghezzaRiga) {
-            return (parola.length + riga.length < lunghezzaRiga)
-        }
-        misura = misura || parolaEntraNellaRiga;
-        fontSize = fontSize || 18;
+    function splitText (parag, fontSize) {
         
-        var parole = str.split(" "),
+        var parole = parag.split(" "),
             numParole = parole.length,
             ret = [],
             lunghezzaRiga = 32,
@@ -48,7 +102,14 @@ editorErrante.neSplit = function() {
     }
     
     return {
-        "split": splitTextInMaxRighe
+        "process": splitTextInMaxRighe,
+        "setText": setTextToSplit,
+        "setMaxFontSize": setMaxFontSize,
+        "setContext": setContext,
+        "getFontSize": getCurrentFontSize,
+        "getLines": getSplittedLines,
+        "getLineHeight": getLineHeight,
+        "setHeight": setNumeroPixel
     }
     
 }();
