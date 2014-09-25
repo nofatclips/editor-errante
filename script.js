@@ -15,28 +15,37 @@ var editorErrante = angular
 		}).otherwise({
 			"redirectTo": "/"
 		});
-	});
+	}).run(["Data", "Settings", "localStorageService", function(Data, Settings, localStorageService){
+        window.addEventListener("beforeunload", function(ev) {
+            if (Settings.salvaInUscita === "yes") {
+                localStorageService.set("ilRacconto", Data.ilRacconto);
+                localStorageService.set("ilTitolo", Data.ilTitolo);
+                localStorageService.set("laFirma", Data.laFirma);
+            }
+        })
+    }]);
 
 //Service
-editorErrante.factory("Data", function() {
+editorErrante.factory("Data", ["localStorageService", function(localStorageService) {
   return {
-    "ilRacconto": "",
-    "ilTitolo": "",
+    "ilRacconto": localStorageService.get("ilRacconto") || "",
+    "ilTitolo": localStorageService.get("ilTitolo") || "",
     "parola1": "",
     "parola2": "",
-    "laFirma": "",
+    "laFirma": localStorageService.get("laFirma") || "",
     "laData": "",
     "maxChar": 400,
     "campoSelezionato": "il-racconto",
     "selezione": "ilRacconto"
   };
-});
+}]);
 
 editorErrante.factory("Settings", ["localStorageService", function(localStorageService) {
   return {
     "allineaTitolo": localStorageService.get("allineaTitolo") || "left",
     "allineaRacconto": localStorageService.get("allineaRacconto") || "left",
-    "allineaFirma": localStorageService.get("allineaFirma") || "right"
+    "allineaFirma": localStorageService.get("allineaFirma") || "right",
+    "salvaInUscita": localStorageService.get("salvaInUscita") || "yes",
   };
 }]);
 
