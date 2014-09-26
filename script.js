@@ -15,42 +15,45 @@ var editorErrante = angular
 		}).otherwise({
 			"redirectTo": "/"
 		});
-	}).run(["Data", "Settings", "localStorageService", function(Data, Settings, localStorageService){
+	}).run(["Data", "Settings", "localStorageService", function(Data, Settings, store){
         window.addEventListener("beforeunload", function(ev) {
             if (Settings.salvaInUscita === "yes") {
-                localStorageService.set("ilRacconto", Data.ilRacconto);
-                localStorageService.set("ilTitolo", Data.ilTitolo);
-                localStorageService.set("laFirma", Data.laFirma);
+                store.set("ilRacconto", Data.ilRacconto);
+                store.set("ilTitolo", Data.ilTitolo);
+                store.set("laFirma", Data.laFirma);
             }
         })
     }]).constant("Interlinea", {
-    "singola":  1.25,
-    "doppia":   1.5,
-    "tripla":   1.75
+        "singola":  1.25,
+        "doppia":   1.5,
+        "tripla":   1.75
+    }).constant("Status", {
+        "campoSelezionato": "il-racconto",
+        "selezione": "ilRacconto",
+        "modo": "NE"
 });
 
+
 //Service
-editorErrante.factory("Data", ["localStorageService", function(localStorageService) {
+editorErrante.factory("Data", ["localStorageService", function(store) {
   return {
-    "ilRacconto": localStorageService.get("ilRacconto") || "",
-    "ilTitolo": localStorageService.get("ilTitolo") || "",
+    "ilRacconto": store.get("ilRacconto") || "",
+    "ilTitolo": store.get("ilTitolo") || "",
     "parola1": "",
     "parola2": "",
-    "laFirma": localStorageService.get("laFirma") || "",
+    "laFirma": store.get("laFirma") || "",
     "laData": "",
-    "maxChar": 400,
-    "campoSelezionato": "il-racconto",
-    "selezione": "ilRacconto"
+    "maxChar": 400
   };
 }]);
 
-editorErrante.factory("Settings", ["localStorageService", "Interlinea", function(localStorageService, interlinea) {
+editorErrante.factory("Settings", ["localStorageService", "Interlinea", function(store, interlinea) {
   return {
-    "allineaTitolo": localStorageService.get("allineaTitolo") || "left",
-    "allineaRacconto": localStorageService.get("allineaRacconto") || "left",
-    "allineaFirma": localStorageService.get("allineaFirma") || "right",
-    "salvaInUscita": localStorageService.get("salvaInUscita") || "yes",
-    "interlinea": localStorageService.get("interlinea") || interlinea.singola
+    "allineaTitolo": store.get("allineaTitolo") || "left",
+    "allineaRacconto": store.get("allineaRacconto") || "left",
+    "allineaFirma": store.get("allineaFirma") || "right",
+    "salvaInUscita": store.get("salvaInUscita") || "yes",
+    "interlinea": store.get("interlinea") || interlinea.singola
   };
 }]);
 
@@ -177,22 +180,46 @@ editorErrante.directive("cliccaPerNascondere", function() {
 });
 
 //Controller
-function EditorController($scope, $element, Data) {
+function EditorController($scope, $element, Data, Status) {
     $scope.data = Data;
     $element[0].addEventListener("focus", function(evt){
-        Data.campoSelezionato = evt.target.id;
-        Data.selezione = evt.target.attributes["ng-model"].value.substring(5); //substring elimina "data." dalla stringa
+        Status.campoSelezionato = evt.target.id;
+        Status.selezione = evt.target.attributes["ng-model"].value.substring(5); //substring elimina "data." dalla stringa
     }, true);
 }
 
-function TastieraController($scope, Data) {
-    $scope.data = Data;
+// Controller Tastierino
+editorErrante.controller("TastieraController", ["$scope", "Data", "Status", function ($scope, Data, Status) {
+
+    var insertAtCursor = function (myValue, textField) {
+        if (!textField) return;
+        var myField = document.getElementById(textField);
+        
+        //Source: http://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
+        if (document.selection) { //IE support
+            myField.focus();
+            document.selection.createRange().myValue;
+        } else if (myField.selectionStart || myField.selectionStart == '0') { //MOZILLA and others
+            var startPos = myField.selectionStart;
+            myField.value = myField.value.substring(0, startPos)
+                + myValue
+                + myField.value.substring(myField.selectionEnd, myField.value.length);
+            myField.focus();
+            myField.selectionStart = startPos + myValue.length;
+            myField.selectionEnd = myField.selectionStart;
+        } else {
+            myField.value += myValue;
+        }
+        
+        return myField.value;
+    }
+
     $scope.accentata = function(lettera) {
         $scope.$apply(function() {
-            $scope.data[$scope.data.selezione] = insertAtCursor(lettera, $scope.data.campoSelezionato);
+            Data[Status.selezione] = insertAtCursor(lettera, Status.campoSelezionato);
         });
     }
-}
+}]);
 
 editorErrante.controller("CanvasController", ["$scope", "$location", "$filter", "Data", "Settings", "neSplitter", function ($scope, $location, $filter, Data, Settings, split) {
     $scope.data = Data;
@@ -420,26 +447,3 @@ editorErrante.controller("ComposeController", function($routeParams, Data) {
     Data.parola2 = $routeParams.p2;
     Data.laData = $routeParams.date;
 });
-
-var insertAtCursor = function (myValue, textField) {
-    if (!textField) return;
-    var myField = document.getElementById(textField);
-    
-    //Source: http://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
-    if (document.selection) { //IE support
-        myField.focus();
-        document.selection.createRange().myValue;
-    } else if (myField.selectionStart || myField.selectionStart == '0') { //MOZILLA and others
-        var startPos = myField.selectionStart;
-        myField.value = myField.value.substring(0, startPos)
-            + myValue
-            + myField.value.substring(myField.selectionEnd, myField.value.length);
-        myField.focus();
-        myField.selectionStart = startPos + myValue.length;
-        myField.selectionEnd = myField.selectionStart;
-    } else {
-        myField.value += myValue;
-    }
-    
-    return myField.value;
-}
