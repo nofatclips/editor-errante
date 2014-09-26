@@ -26,6 +26,7 @@ angular.module("neTextSplitter", []).factory("neSplitter", function() {
         context = null,
         misura = parolaEntraNellaRiga,
         interlinea = 1.2,
+        lunghezzaRiga = 32,
         width = 394,
         height = 100;
     
@@ -96,7 +97,6 @@ angular.module("neTextSplitter", []).factory("neSplitter", function() {
         var parole = parag.split(" "),
             numParole = parole.length,
             ret = [],
-            lunghezzaRiga = 32,
             riga = parole[0];
             
         for (var i=1; i<numParole; i++) {

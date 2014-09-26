@@ -23,7 +23,11 @@ var editorErrante = angular
                 localStorageService.set("laFirma", Data.laFirma);
             }
         })
-    }]);
+    }]).constant("Interlinea", {
+    "singola":  1.25,
+    "doppia":   1.5,
+    "tripla":   1.75
+});
 
 //Service
 editorErrante.factory("Data", ["localStorageService", function(localStorageService) {
@@ -40,13 +44,13 @@ editorErrante.factory("Data", ["localStorageService", function(localStorageServi
   };
 }]);
 
-editorErrante.factory("Settings", ["localStorageService", function(localStorageService) {
+editorErrante.factory("Settings", ["localStorageService", "Interlinea", function(localStorageService, interlinea) {
   return {
     "allineaTitolo": localStorageService.get("allineaTitolo") || "left",
     "allineaRacconto": localStorageService.get("allineaRacconto") || "left",
     "allineaFirma": localStorageService.get("allineaFirma") || "right",
     "salvaInUscita": localStorageService.get("salvaInUscita") || "yes",
-    "interlinea": localStorageService.get("interlinea") || 1.25
+    "interlinea": localStorageService.get("interlinea") || interlinea.singola
   };
 }]);
 
@@ -115,6 +119,11 @@ editorErrante.filter("cercaParola", function() {
             return {"word": word};
         }
         return "";
+    };
+}).filter("inizialeMaiuscola", function () {
+    return function(s) {
+        if (!s) return "";
+        return s.charAt(0).toUpperCase() + s.slice(1);
     };
 });
 
@@ -185,8 +194,9 @@ function TastieraController($scope, Data) {
     }
 }
 
-editorErrante.controller("CanvasController", ["$scope", "$location", "Data", "Settings", "neSplitter", function ($scope, $location, Data, Settings, split) {
+editorErrante.controller("CanvasController", ["$scope", "$location", "$filter", "Data", "Settings", "neSplitter", function ($scope, $location, $filter, Data, Settings, split) {
     $scope.data = Data;
+    var inizialeMaiuscola = $filter("inizialeMaiuscola");
     var picture = document.getElementById('immagine-da-salvare');
     var link = document.getElementById('link-salvataggio');
     var canvas = document.getElementById('quattrocento-jpeg');
@@ -373,10 +383,11 @@ function ReportController($scope, $filter, Data) {
 
 }
 
-function OpzioniController($scope, $location, localStorageService, Data, Settings) {
+function OpzioniController($scope, $location, localStorageService, Data, Settings, Interlinea) {
 
     $scope.data = Data;
     $scope.settings = Settings;
+    $scope.valori = Interlinea;
 
     var theUrl = function() {
         var parola1 = $scope.data.parola1 || "";
@@ -431,9 +442,4 @@ var insertAtCursor = function (myValue, textField) {
     }
     
     return myField.value;
-}
-
-function inizialeMaiuscola(s) {
-    if (!s) return "";
-    return s.charAt(0).toUpperCase() + s.slice(1);
 }
