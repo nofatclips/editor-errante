@@ -57,6 +57,53 @@ editorErrante.factory("Settings", ["localStorageService", "Interlinea", function
   };
 }]);
 
+editorErrante.factory("neReverseRoute", ["$location", "Data", "Status", function(loc, Data, Status) {
+
+    var orElse = null,
+        where = "editor",
+        theUrl = {
+            "editor": {},
+            "opzioni": {}
+        };
+    
+    var setFunctionToCallIfAlreadyThere = function(otherwise) {
+        orElse = otherwise;
+        return this;
+    }
+    
+    var setTheDestinationWhoseRouteIsNeeded = function(dest) {
+        where = dest;
+        return this;
+    }
+    
+    theUrl["editor"]["NE"] = function() {
+        var parola1 = Data.parola1 || "";
+        var parola2 = Data.parola2 || "";
+        var settima = Data.laData || "";
+        return "/" + ((parola1 || parola2 || settima) ? (parola1 + "/" + parola2 + "/" + settima) : "");
+    }
+
+    theUrl["opzioni"]["NE"] = function() {
+        return "/opzioni";
+    }
+    
+    var updateUrlOrDoOtherwise = function() {
+        var nuovaUrl = theUrl[where][Status.modo]();
+        if (nuovaUrl === loc.path()) {
+            orElse();
+        } else {
+            loc.path(nuovaUrl);
+        }
+    };
+
+    return {
+        "altrimenti": setFunctionToCallIfAlreadyThere,
+        "apri": setTheDestinationWhoseRouteIsNeeded,
+        "go": updateUrlOrDoOtherwise
+    }
+
+}]);
+
 editorErrante.filter("numChar", function() {
 	return function(theText) {
 		return theText
@@ -221,7 +268,7 @@ editorErrante.controller("TastieraController", ["$scope", "Data", "Status", func
     }
 }]);
 
-editorErrante.controller("CanvasController", ["$scope", "$location", "$filter", "Data", "Settings", "neSplitter", function ($scope, $location, $filter, Data, Settings, split) {
+editorErrante.controller("CanvasController", ["$scope", "$filter", "Data", "Settings", "neSplitter", "neReverseRoute", function ($scope, $filter, Data, Settings, split, indirizzo) {
     $scope.data = Data;
     var inizialeMaiuscola = $filter("inizialeMaiuscola");
     var picture = document.getElementById('immagine-da-salvare');
@@ -242,15 +289,7 @@ editorErrante.controller("CanvasController", ["$scope", "$location", "$filter", 
     split.setLeading(Settings.interlinea);
 
     $scope.updateUrl = function() {
-        var parola1 = $scope.data.parola1 || "";
-        var parola2 = $scope.data.parola2 || "";
-        var settima = $scope.data.laData || "";
-        var nuovaUrl = "/" + ((parola1 || parola2 || settima) ? (parola1 + "/" + parola2 + "/" + settima) : "");
-        if (nuovaUrl === $location.path()) {
-            aggiorna();
-        } else {
-            $location.path(nuovaUrl);
-        }
+        indirizzo.apri("editor").altrimenti(aggiorna).go();
     };
     
     var clearCanvas = function() {
@@ -354,7 +393,7 @@ editorErrante.controller("CanvasController", ["$scope", "$location", "$filter", 
     $scope.redrawJpeg = aggiorna;
     
     $scope.vaiOpzioni = function() {
-        $location.path("/opzioni");
+        indirizzo.apri("opzioni").go();
     }
     
     var logoErranti = new Image();
@@ -410,40 +449,23 @@ function ReportController($scope, $filter, Data) {
 
 }
 
-function OpzioniController($scope, $location, localStorageService, Data, Settings, Interlinea) {
+editorErrante.controller("OpzioniController", ["$scope", "localStorageService", "Settings", "Interlinea", "neReverseRoute", function ($scope, store, Settings, Interlinea, indirizzo) {
 
-    $scope.data = Data;
     $scope.settings = Settings;
     $scope.valori = Interlinea;
-
-    var theUrl = function() {
-        var parola1 = $scope.data.parola1 || "";
-        var parola2 = $scope.data.parola2 || "";
-        var settima = $scope.data.laData || "";
-        return "/" + ((parola1 || parola2 || settima) ? (parola1 + "/" + parola2 + "/" + settima) : "");
-    }
-    
-    var updateUrl = function() {
-        var nuovaUrl = theUrl();
-        if (nuovaUrl === $location.path()) {
-            aggiorna();
-        } else {
-            $location.path(nuovaUrl);
-        }
-    };
     
     $scope.salva = function() {
-        localStorageService.set("allineaTitolo", Settings.allineaTitolo);
-        localStorageService.set("allineaRacconto", Settings.allineaRacconto);
-        localStorageService.set("allineaFirma", Settings.allineaFirma);
-        localStorageService.set("interlinea", Settings.interlinea);
-        updateUrl();
+        store.set("allineaTitolo", Settings.allineaTitolo);
+        store.set("allineaRacconto", Settings.allineaRacconto);
+        store.set("allineaFirma", Settings.allineaFirma);
+        store.set("interlinea", Settings.interlinea);
+        indirizzo.apri("editor").go();
     }
 
-}
+}]);
 
-editorErrante.controller("ComposeController", function($routeParams, Data) {
-    Data.parola1 = $routeParams.p1;
-    Data.parola2 = $routeParams.p2;
-    Data.laData = $routeParams.date;
-});
+editorErrante.controller("ComposeController", ["$routeParams", "Data", function(parametri, Data) {
+    Data.parola1 = parametri.p1;
+    Data.parola2 = parametri.p2;
+    Data.laData = parametri.date;
+}]);
