@@ -22,7 +22,6 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
     
     split.setMaxFontSize(18);
     split.setHeight(442);
-    split.setLeading(Settings.interlinea);
     
     var setImmagineDaSalvare = function(img) {
         picture = img;
@@ -76,6 +75,7 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
         context.font = 'normal 18pt Cambria';        
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
+        split.setLeading(Settings.interlinea);
         split.setText(Data.ilRacconto);
         split.process();
         var lines = split.getLines();
