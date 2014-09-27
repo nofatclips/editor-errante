@@ -1,7 +1,7 @@
 "use strict"
 //Application
 var editorErrante = angular
-	.module("EditorErrante", ["ngRoute", "LocalStorageModule", "neTextSplitter"])
+	.module("EditorErrante", ["ngRoute", "LocalStorageModule", "neTextSplitter", "neCanvas"])
     .run(["Data", "Settings", "localStorageService", function(Data, Settings, store){
         window.addEventListener("beforeunload", function(ev) {
             if (Settings.salvaInUscita === "yes") {
@@ -207,140 +207,21 @@ editorErrante.controller("TastieraController", ["$scope", "Data", "Status", func
     }
 }]);
 
-editorErrante.controller("CanvasController", ["$scope", "$filter", "Data", "Settings", "neSplitter", "neReverseRoute", function ($scope, $filter, Data, Settings, split, indirizzo) {
-    $scope.data = Data;
-    var inizialeMaiuscola = $filter("inizialeMaiuscola");
-    var picture = document.getElementById('immagine-da-salvare');
-    var link = document.getElementById('link-salvataggio');
-    var canvas = document.getElementById('quattrocento-jpeg');
-    var context = canvas.getContext('2d');
-    var center = {
-        x: 207,
-        y: 625
-    }, size = {
-        x: 85,
-        y: 96
-    };
-    var posizioneUltimaRiga;
-    split.setMaxFontSize(18);
-    split.setHeight(442);
-    split.setContext(context);
-    split.setLeading(Settings.interlinea);
+editorErrante.controller("PulsantieraController", ["$scope", "neReverseRoute", "neImager", function ($scope, indirizzo, immagine) {
+    immagine.setImage(document.getElementById('immagine-da-salvare'));
+    immagine.setLink(document.getElementById('link-salvataggio'));
+    immagine.setCanvas(document.getElementById('quattrocento-jpeg'));
 
     $scope.updateUrl = function() {
-        indirizzo.apri("editor").altrimenti(aggiorna).go();
+        indirizzo.apri("editor").altrimenti(immagine.aggiorna).go();
     };
-    
-    var clearCanvas = function() {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.fillStyle = '#0f3460';
-        context.fillRect(0, 0, canvas.width, canvas.height);
-    }
-    
-    var redrawImage = function() {
-        context.drawImage(logoErranti, center.x-(size.x/2), center.y-(size.y/2), size.x, size.y);
-    }
-    
-    var allineaTesto = function(testo, allineamento, x, y, size) {
-        if (allineamento === "left") {
-            context.textAlign = "left";
-            context.fillText(testo, x, y, size);
-        } else if (allineamento === "right") {
-            context.textAlign = "right";
-            context.fillText(testo, x+size, y, size);
-        } else if (allineamento === "middle") {
-            context.textAlign = "center";
-            context.fillText(testo, x+size/2, y, size);
-        }
-    }
-    
-    var redrawTitle = function() {
-        context.font = 'bold 20pt Cambria';
-        context.fillStyle = 'white';
-        context.textBaseline = 'alphabetic';
-        allineaTesto (Data.ilTitolo.toUpperCase(), Settings.allineaTitolo, 20, 30, 374);
-    }
-    
-    var redrawText = function() {
-        context.font = 'normal 18pt Cambria';        
-        context.fillStyle = 'white';
-        context.textBaseline = 'alphabetic';
-        split.setText(Data.ilRacconto);
-        split.process();
-        var lines = split.getLines();
-        var h = split.getLineHeight();
-        context.font = 'normal ' + split.getFontSize() + 'pt Cambria';
-        lines.forEach(function(line, num) {
-            posizioneUltimaRiga = 70 + num * h;
-            allineaTesto(line.trim(), Settings.allineaRacconto, 10, posizioneUltimaRiga, 394);
-        });
-    }
-    
-    var redrawName = function() {
-        context.font = 'italic 20pt Cambria';
-        context.fillStyle = 'white';
-        context.textBaseline = 'alphabetic';
-        var posizioneFirma = Math.min(posizioneUltimaRiga + split.getLineHeight() + 20, 540);
-        allineaTesto(Data.laFirma, Settings.allineaFirma, 14, posizioneFirma, 390);
-    }
-    
-    var redrawWords = function() {
-        context.font = 'bold 20pt Cambria';
-        context.fillStyle = 'white';
-        context.textBaseline = 'middle';
-        context.textAlign = "right";
-        context.fillText(inizialeMaiuscola($scope.data.parola1), 155, center.y, 150);
-        context.textAlign = "left";
-        context.fillText(inizialeMaiuscola($scope.data.parola2), 254, center.y, 150);
-    }
-    
-    var redrawNE = function() {
-        context.font = 'normal 18pt Cambria';
-        context.fillStyle = 'white';
-        context.textBaseline = 'alphabetic';
-        context.textAlign = "center";
-        context.fillText("NarrantiErranti", center.x, 698);
-    }
-    
-    var redrawSettimana = function() {
-        if (!$scope.data.laData) return;
-        context.font = 'normal 20pt Cambria';
-        context.fillStyle = 'white';
-        context.textBaseline = 'alphabetic';
-        context.textAlign = "center";
-        context.fillText("Settimana " + $scope.data.laData, center.x, 570);
-    }
-    
-    var updateImage = function() {
-        picture.src = canvas.toDataURL("image/png");
-        link.href = picture.src;
-        link.download = ($scope.data.ilTitolo || "senzatitolo") + ".png";
-    }
-    
-    var aggiorna = function() {
-        clearCanvas();
-        redrawImage();
-        redrawTitle();
-        redrawText();
-        redrawName();
-        redrawWords();
-        redrawNE();
-        redrawSettimana();
-        updateImage();
-    }
-    
-    $scope.redrawJpeg = aggiorna;
-    
+        
     $scope.vaiOpzioni = function() {
         indirizzo.apri("opzioni").go();
     }
     
-    var logoErranti = new Image();
-    logoErranti.src = "erranti_sml.jpg";
-    logoErranti.onload = aggiorna;
+    immagine.aggiorna();
     
-    //$scope.$watch(function() {return $scope.data}, $scope.redrawJpeg, true);
-
 }]);
 
 function ReportController($scope, $filter, Data) {
