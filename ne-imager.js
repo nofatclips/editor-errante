@@ -16,6 +16,10 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
     };
     var posizioneUltimaRiga;
 
+    canvas = document.createElement('canvas');
+    canvas.width = 414;
+    canvas.height = 709;
+    
     split.setMaxFontSize(18);
     split.setHeight(442);
     split.setLeading(Settings.interlinea);
@@ -30,7 +34,11 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
 
     var setCanvasPerCreareImmagine = function(c) {
         canvas = c;
-        context = canvas.getContext('2d');
+        setContext();
+    }
+    
+    var setContext = function (ctx) {
+        context = ctx || canvas.getContext('2d');
         split.setContext(context);
     }
     
@@ -132,6 +140,7 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
         updateImage();
     }
     
+    setContext();
     var logoErranti = new Image();
     logoErranti.src = "erranti_sml.jpg";
     logoErranti.onload = aggiorna;
