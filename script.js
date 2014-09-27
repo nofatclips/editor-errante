@@ -210,7 +210,6 @@ editorErrante.controller("TastieraController", ["$scope", "Data", "Status", func
 editorErrante.controller("PulsantieraController", ["$scope", "neReverseRoute", "neImager", function ($scope, indirizzo, immagine) {
     immagine.setImage(document.getElementById('immagine-da-salvare'));
     immagine.setLink(document.getElementById('link-salvataggio'));
-    immagine.setCanvas(document.getElementById('quattrocento-jpeg'));
 
     $scope.updateUrl = function() {
         indirizzo.apri("editor").altrimenti(immagine.aggiorna).go();
