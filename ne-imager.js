@@ -88,7 +88,7 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
     }
     
     var redrawName = function() {
-        context.font = 'italic 20pt Cambria';
+        context.font = 'italic '+ Math.min(20, 4 + split.getFontSize()) +'pt Cambria';
         context.fillStyle = 'white';
         context.textBaseline = 'alphabetic';
         var posizioneFirma = Math.min(posizioneUltimaRiga + split.getLineHeight() + 20, 540);
