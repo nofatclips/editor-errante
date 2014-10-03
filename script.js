@@ -48,7 +48,7 @@ editorErrante.filter("numChar", function() {
 		return theText
             .replace(/\n+/g, "\n")
             .replace(/\.\.\./g,"\u2026")
-//            .replace(/\s+/g," ")
+            .replace(/\s+/g," ")
             .length;
 	};
 });
