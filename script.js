@@ -18,6 +18,10 @@ var editorErrante = angular
         "campoSelezionato": "il-racconto",
         "selezione": "ilRacconto",
         "modo": "NE"
+    }).constant("Stile", {
+        "font": "Cambria",
+        "color": "white",
+        "backgroundColor": '#0f3460'
 });
 
 //Service

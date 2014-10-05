@@ -1,6 +1,6 @@
 "use strict"
 // Canvas Module
-angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings", "neSplitter", function ($filter, Data, Settings, split) {
+angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings", "Stile", "neSplitter", function ($filter, Data, Settings, Stile, split) {
 
     var inizialeMaiuscola = $filter("inizialeMaiuscola"),
         picture,
@@ -43,7 +43,7 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
     
     var clearCanvas = function() {
         context.clearRect(0, 0, canvas.width, canvas.height);
-        context.fillStyle = '#0f3460';
+        context.fillStyle = Stile.backgroundColor;
         context.fillRect(0, 0, canvas.width, canvas.height);
     }
     
@@ -65,22 +65,22 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
     }
     
     var redrawTitle = function() {
-        context.font = 'bold 20pt Cambria';
-        context.fillStyle = 'white';
+        context.font = 'bold 20pt ' + Stile.font;
+        context.fillStyle = Stile.color;
         context.textBaseline = 'alphabetic';
         allineaTesto (Data.ilTitolo.toUpperCase(), Settings.allineaTitolo, 20, 30, 374);
     }
     
     var redrawText = function() {
-        context.font = 'normal 18pt Cambria';        
-        context.fillStyle = 'white';
+        context.font = 'normal 18pt ' + Stile.font;        
+        context.fillStyle = Stile.color;
         context.textBaseline = 'alphabetic';
         split.setLeading(Settings.interlinea);
         split.setText(Data.ilRacconto);
         split.process();
         var lines = split.getLines();
         var h = split.getLineHeight();
-        context.font = 'normal ' + split.getFontSize() + 'pt Cambria';
+        context.font = 'normal ' + split.getFontSize() + 'pt ' + Stile.font;
         lines.forEach(function(line, num) {
             posizioneUltimaRiga = 70 + num * h;
             allineaTesto(line.trim(), Settings.allineaRacconto, 10, posizioneUltimaRiga, 394);
@@ -88,16 +88,16 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
     }
     
     var redrawName = function() {
-        context.font = 'italic '+ Math.min(20, 4 + split.getFontSize()) +'pt Cambria';
-        context.fillStyle = 'white';
+        context.font = 'italic '+ Math.min(20, 4 + split.getFontSize()) +'pt ' + Stile.font;
+        context.fillStyle = Stile.color;
         context.textBaseline = 'alphabetic';
         var posizioneFirma = Math.min(posizioneUltimaRiga + split.getLineHeight() + 20, 540);
         allineaTesto(Data.laFirma, Settings.allineaFirma, 14, posizioneFirma, 390);
     }
     
     var redrawWords = function() {
-        context.font = 'bold 20pt Cambria';
-        context.fillStyle = 'white';
+        context.font = 'bold 20pt ' + Stile.font;
+        context.fillStyle = Stile.color;
         context.textBaseline = 'middle';
         context.textAlign = "right";
         context.fillText(inizialeMaiuscola(Data.parola1), 155, center.y, 150);
@@ -106,8 +106,8 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
     }
     
     var redrawNE = function() {
-        context.font = 'normal 18pt Cambria';
-        context.fillStyle = 'white';
+        context.font = 'normal 18pt ' + Stile.font;
+        context.fillStyle = Stile.color;
         context.textBaseline = 'alphabetic';
         context.textAlign = "center";
         context.fillText("NarrantiErranti", center.x, 698);
@@ -115,8 +115,8 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
     
     var redrawSettimana = function() {
         if (!Data.laData) return;
-        context.font = 'normal 20pt Cambria';
-        context.fillStyle = 'white';
+        context.font = 'normal 20pt ' + Stile.font;
+        context.fillStyle = Stile.color;
         context.textBaseline = 'alphabetic';
         context.textAlign = "center";
         context.fillText("Settimana " + Data.laData, center.x, 570);
