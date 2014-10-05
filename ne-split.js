@@ -27,7 +27,7 @@ angular.module("neTextSplitter", []).factory("neSplitter", ["Stile", function(St
         misura = parolaEntraNellaRiga,
         interlinea = 1.2,
         lunghezzaRiga = 32,
-        width = 394,
+        width = 1000,
         height = 100;
     
     var setTextToSplit = function(text) {

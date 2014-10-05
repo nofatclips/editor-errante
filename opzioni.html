@@ -27,6 +27,12 @@
                 <label for="interlinea-doppia"><input type="radio" ng-model="settings.interlinea" name="leading" id="interlinea-doppia" value="{{valori.doppia}}" /><i class="fa fa-bars fa-lg"></i> Doppia</label>
                 <label for="interlinea-tripla"><input type="radio" ng-model="settings.interlinea" name="leading" id="interlinea-tripla" value="{{valori.tripla}}" /><i class="fa fa-bars fa-2x"></i> Tripla</label>
             </fieldset>
+            <fieldset class="allineamento">
+                <legend>Margine</legend>
+                <label for="margine-minimo"><input type="radio" ng-model="settings.margine" name="margin" id="margine-minimo" value="{{10}}" /><i class="fa fa-arrows-h"></i> Minimo</label>
+                <label for="margine-medio"><input type="radio" ng-model="settings.margine" name="margin" id="margine-medio" value="{{20}}" /><i class="fa fa-arrows-h fa-lg"></i> Medio</label>
+                <label for="margine-ampio"><input type="radio" ng-model="settings.margine" name="margin" id="margine-ampio" value="{{30}}" /><i class="fa fa-arrows-h fa-2x"></i> Ampio</label>
+            </fieldset>
         </form>
     
     </div>

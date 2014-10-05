@@ -76,6 +76,8 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
         context.fillStyle = Stile.color;
         context.textBaseline = 'alphabetic';
         split.setLeading(Settings.interlinea);
+        var ampiezza = canvas.width - Settings.margine * 2;
+        split.setWidth(ampiezza);
         split.setText(Data.ilRacconto);
         split.process();
         var lines = split.getLines();
@@ -83,7 +85,7 @@ angular.module("neCanvas", []).factory("neImager", ["$filter", "Data", "Settings
         context.font = 'normal ' + split.getFontSize() + 'pt ' + Stile.font;
         lines.forEach(function(line, num) {
             posizioneUltimaRiga = 70 + num * h;
-            allineaTesto(line.trim(), Settings.allineaRacconto, 10, posizioneUltimaRiga, 394);
+            allineaTesto(line.trim(), Settings.allineaRacconto, parseInt(Settings.margine,10), posizioneUltimaRiga, ampiezza);
         });
     }
     
