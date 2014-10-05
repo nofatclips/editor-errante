@@ -14,6 +14,10 @@ var editorErrante = angular
         "singola":  1.25,
         "doppia":   1.5,
         "tripla":   1.75
+    }).constant("Margine", {
+        "minimo":  10,
+        "medio":   25,
+        "ampio":   40
     }).constant("Status", {
         "campoSelezionato": "il-racconto",
         "selezione": "ilRacconto",
@@ -37,13 +41,14 @@ editorErrante.factory("Data", ["localStorageService", function(store) {
   };
 }]);
 
-editorErrante.factory("Settings", ["localStorageService", "Interlinea", function(store, interlinea) {
+editorErrante.factory("Settings", ["localStorageService", "Interlinea", "Margine", function(store, interlinea, margine) {
   return {
     "allineaTitolo": store.get("allineaTitolo") || "left",
     "allineaRacconto": store.get("allineaRacconto") || "left",
     "allineaFirma": store.get("allineaFirma") || "right",
     "salvaInUscita": store.get("salvaInUscita") || "yes",
-    "interlinea": store.get("interlinea") || interlinea.singola
+    "interlinea": store.get("interlinea") || interlinea.singola,
+    "margine": store.get("margine") || margine.minimo
   };
 }]);
 
@@ -282,6 +287,7 @@ editorErrante.controller("OpzioniController", ["$scope", "localStorageService", 
         store.set("allineaRacconto", Settings.allineaRacconto);
         store.set("allineaFirma", Settings.allineaFirma);
         store.set("interlinea", Settings.interlinea);
+        store.set("margine", Settings.margine);
         indirizzo.apri("editor").go();
     }
 
