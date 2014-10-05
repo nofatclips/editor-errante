@@ -1,14 +1,13 @@
 "use strict"
 // Splitter Module
-angular.module("neTextSplitter", []).factory("neSplitter", function() {
+angular.module("neTextSplitter", []).factory("neSplitter", ["Stile", function(Stile) {
 
     var parolaEntraNellaRigaSimple = function (riga, parola, lunghezzaRiga) {
         return (parola.length + riga.length < lunghezzaRiga)
     }
 
     var parolaEntraNellaRigaConContesto = function (riga, parola) {
-        context.font = 'normal ' + fontSize + 'pt Cambria';        
-        context.fillStyle = 'white';
+        context.font = 'normal ' + fontSize + 'pt ' + Stile.font;        
         context.textBaseline = 'alphabetic';
         return (context.measureText(riga + " " + parola).width < width);
     }
@@ -24,6 +23,7 @@ angular.module("neTextSplitter", []).factory("neSplitter", function() {
         maxFontSize = 100,
         lines = [""],
         context = null,
+        contextHeight = 100,
         misura = parolaEntraNellaRiga,
         interlinea = 1.2,
         lunghezzaRiga = 32,
@@ -32,8 +32,13 @@ angular.module("neTextSplitter", []).factory("neSplitter", function() {
     
     var setTextToSplit = function(text) {
         str = text;
-        fontSize = maxFontSize;
+        setFontSize(maxFontSize);
         lines = [""];
+    }
+    
+    var setFontSize = function(size) {
+        fontSize = size;
+        measureContextHeight();
     }
     
     var setMaxFontSize = function(size) {
@@ -57,7 +62,7 @@ angular.module("neTextSplitter", []).factory("neSplitter", function() {
     }
     
     var getLineHeight = function() {
-        return Math.ceil(fontSize * interlinea);
+        return Math.ceil(contextHeight * interlinea);
     }
     
     var setNumeroPixel = function(h) {
@@ -71,12 +76,17 @@ angular.module("neTextSplitter", []).factory("neSplitter", function() {
     var setLarghezzaPagina = function(l) {
         width = l;
     }
+    
+    var measureContextHeight = function() {
+        context.font = 'normal ' + fontSize + 'pt ' + Stile.font;
+        contextHeight = context.measureText("M").width;
+    }
 
     var splitTextInMaxRighe = function() {
         var maxRighe = getNumeroRigheMax();
         var ret = splitTextWithLineFeed(str, fontSize);
         while (ret.length > maxRighe && fontSize > 0) {
-            fontSize--;
+            setFontSize(fontSize-1);
             maxRighe = getNumeroRigheMax();
             ret = splitTextWithLineFeed();
         }
@@ -93,7 +103,6 @@ angular.module("neTextSplitter", []).factory("neSplitter", function() {
     }
 
     function splitText (parag, fontSize) {
-        
         var parole = parag.split(" "),
             numParole = parole.length,
             ret = [],
@@ -124,4 +133,4 @@ angular.module("neTextSplitter", []).factory("neSplitter", function() {
         "setLeading": setLineHeightRatio
     }
     
-});
+}]);
