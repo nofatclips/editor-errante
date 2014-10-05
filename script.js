@@ -277,10 +277,11 @@ function ReportController($scope, $filter, Data) {
 
 }
 
-editorErrante.controller("OpzioniController", ["$scope", "localStorageService", "Settings", "Interlinea", "neReverseRoute", function ($scope, store, Settings, Interlinea, indirizzo) {
+editorErrante.controller("OpzioniController", ["$scope", "localStorageService", "Settings", "Interlinea", "Margine", "neReverseRoute", function ($scope, store, Settings, Interlinea, Margine, indirizzo) {
 
     $scope.settings = Settings;
     $scope.valori = Interlinea;
+    $scope.margine = Margine;
     
     $scope.salva = function() {
         store.set("allineaTitolo", Settings.allineaTitolo);
