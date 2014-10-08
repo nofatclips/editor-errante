@@ -10,15 +10,16 @@ var editorErrante = angular
                 store.set("laFirma", Data.laFirma);
             }
         })
-    }]).constant("Interlinea", {
-        "singola":  1.25,
-        "doppia":   1.5,
-        "tripla":   1.75
-    }).constant("Margine", {
-        "minimo":  10,
-        "medio":   25,
-        "ampio":   40
-    }).constant("Status", {
+    }]).constant("Valori", 
+        {"Interlinea": {
+            "singola":  1.25,
+            "doppia":   1.5,
+            "tripla":   1.75
+        }, "Margine": {
+            "minimo":  10,
+            "medio":   25,
+            "ampio":   40
+    }}).constant("Status", {
         "campoSelezionato": "il-racconto",
         "selezione": "ilRacconto",
         "modo": "NE"
@@ -41,14 +42,14 @@ editorErrante.factory("Data", ["localStorageService", function(store) {
   };
 }]);
 
-editorErrante.factory("Settings", ["localStorageService", "Interlinea", "Margine", function(store, interlinea, margine) {
+editorErrante.factory("Settings", ["localStorageService", "Valori", function(store, valori) {
   return {
     "allineaTitolo": store.get("allineaTitolo") || "left",
     "allineaRacconto": store.get("allineaRacconto") || "left",
     "allineaFirma": store.get("allineaFirma") || "right",
     "salvaInUscita": store.get("salvaInUscita") || "yes",
-    "interlinea": store.get("interlinea") || interlinea.singola,
-    "margine": store.get("margine") || margine.minimo
+    "interlinea": store.get("interlinea") || valori.interlinea.singola,
+    "margine": store.get("margine") || valori.margine.minimo
   };
 }]);
 
@@ -277,11 +278,11 @@ function ReportController($scope, $filter, Data) {
 
 }
 
-editorErrante.controller("OpzioniController", ["$scope", "localStorageService", "Settings", "Interlinea", "Margine", "neReverseRoute", function ($scope, store, Settings, Interlinea, Margine, indirizzo) {
+editorErrante.controller("OpzioniController", ["$scope", "localStorageService", "Settings", "Valori", "neReverseRoute", function ($scope, store, Settings, valori, indirizzo) {
 
     $scope.settings = Settings;
-    $scope.valori = Interlinea;
-    $scope.margine = Margine;
+    $scope.interlinea = valori.Interlinea;
+    $scope.margine = valori.Margine;
     
     $scope.salva = function() {
         store.set("allineaTitolo", Settings.allineaTitolo);
