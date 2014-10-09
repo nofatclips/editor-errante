@@ -48,8 +48,8 @@ editorErrante.factory("Settings", ["localStorageService", "Valori", function(sto
     "allineaRacconto": store.get("allineaRacconto") || "left",
     "allineaFirma": store.get("allineaFirma") || "right",
     "salvaInUscita": store.get("salvaInUscita") || "yes",
-    "interlinea": store.get("interlinea") || valori.interlinea.singola,
-    "margine": store.get("margine") || valori.margine.minimo
+    "interlinea": store.get("interlinea") || valori.Interlinea.singola,
+    "margine": store.get("margine") || valori.Margine.minimo
   };
 }]);
 
